@@ -34,7 +34,8 @@
                             800: '#00598a',
                             900: '#064b73',
                             950: '#042f4d',
-                            cyan: '#00C0FF'
+                            cyan: '#00C0FF',
+                            emerald: '#10B981'
                         }
                     }
                 }
@@ -58,14 +59,24 @@
             background: #00C0FF;
         }
         .active-tab {
-            background-color: rgba(0, 192, 255, 0.1);
-            color: #00C0FF;
-            border-left: 4px solid #00C0FF;
+            background-color: rgba(15, 23, 42, 0.6);
+            border-left: 4px solid var(--tab-color, #00C0FF);
+            color: var(--tab-color, #00C0FF) !important;
         }
-        .active-module {
+        .active-module-handicap {
             background-color: #00C0FF;
             color: #0b0f19;
             box-shadow: 0 4px 14px rgba(0, 192, 255, 0.3);
+        }
+        .active-module-bookings {
+            background-color: #f59e0b;
+            color: #0b0f19;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+        }
+        .active-module-corners {
+            background-color: #10b981;
+            color: #0b0f19;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
         }
     </style>
 </head>
@@ -73,8 +84,8 @@
 
     <!-- Header Principal -->
     <header class="bg-[#0f172a] border-b border-slate-800 sticky top-0 z-50 px-4 py-3 sm:px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-3 self-start md:self-auto">
+        <div class="max-w-7xl mx-auto flex flex-col xl:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3 self-start xl:self-auto">
                 <div class="relative w-10 h-10 rounded-lg overflow-hidden border border-brand-400 bg-brand-cyan/20 flex items-center justify-center">
                     <img id="logo-img" src="image_31bba5.png" alt="Logo G BR" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/100x100/00c0ff/000000?text=G+BR'">
                 </div>
@@ -82,21 +93,24 @@
                     <h1 class="text-lg font-bold text-white tracking-wide flex items-center gap-2">
                         G BR TRADE <span class="text-xs bg-brand-cyan/10 text-brand-cyan px-2 py-0.5 rounded-full border border-brand-cyan/20">Hub de Análise</span>
                     </h1>
-                    <p class="text-xs text-slate-400">Handicaps Asiáticos e Mercados de Cartões em Tempo Real</p>
+                    <p class="text-xs text-slate-400">Handicaps Asiáticos, Cartões e Escanteios em Tempo Real</p>
                 </div>
             </div>
 
             <!-- Seletor de Módulos (Páginas) -->
-            <div class="bg-slate-900 border border-slate-800 p-1.5 rounded-xl flex w-full md:w-auto">
-                <button onclick="switchModule('handicap')" id="btn-module-handicap" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-all active-module">
+            <div class="bg-slate-900 border border-slate-800 p-1.5 rounded-xl flex flex-wrap w-full xl:w-auto gap-1">
+                <button onclick="switchModule('handicap')" id="btn-module-handicap" class="flex-1 xl:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all active-module-handicap">
                     <i class="fa-solid fa-chart-pie"></i> Handicap Asiático
                 </button>
-                <button onclick="switchModule('bookings')" id="btn-module-bookings" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-all text-slate-400 hover:text-white">
-                    <i class="fa-solid fa-square text-amber-500"></i> Pontos de Cartões (Bookings)
+                <button onclick="switchModule('bookings')" id="btn-module-bookings" class="flex-1 xl:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-square text-amber-500"></i> Pontos de Cartões
+                </button>
+                <button onclick="switchModule('corners')" id="btn-module-corners" class="flex-1 xl:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-flag text-emerald-400"></i> Escanteios
                 </button>
             </div>
             
-            <div class="hidden lg:flex items-center gap-2">
+            <div class="hidden xl:flex items-center gap-2">
                 <span class="bg-slate-800 text-white font-bold text-xs px-3 py-1.5 rounded-md flex items-center gap-2 border border-slate-700">
                     <i class="fa-solid fa-bolt text-brand-cyan"></i> G BR TRADE
                 </span>
@@ -115,32 +129,26 @@
                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-2 flex items-center gap-2">
                     <i class="fa-solid fa-bars text-brand-cyan"></i> Navegação Handicap
                 </p>
-                
                 <button onclick="switchTab('tab-instrucoes')" id="btn-tab-instrucoes" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left active-tab">
                     <i class="fa-solid fa-graduation-cap text-lg w-6"></i>
                     <span>Como Funciona?</span>
                 </button>
-                
                 <button onclick="switchTab('tab-tabelas')" id="btn-tab-tabelas" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left">
                     <i class="fa-solid fa-table text-lg w-6"></i>
                     <span>Tabela de Linhas</span>
                 </button>
-                
                 <button onclick="switchTab('tab-matriz')" id="btn-tab-matriz" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left">
                     <i class="fa-solid fa-list-check text-lg w-6"></i>
                     <span>Matriz de Resultados</span>
                 </button>
-                
                 <button onclick="switchTab('tab-exemplos')" id="btn-tab-exemplos" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left">
                     <i class="fa-solid fa-circle-info text-lg w-6"></i>
                     <span>Cenários Práticos</span>
                 </button>
-
                 <button onclick="switchTab('tab-simulador')" id="btn-tab-simulador" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left border border-dashed border-brand-cyan/20 bg-brand-cyan/5">
                     <i class="fa-solid fa-calculator text-lg w-6 text-brand-cyan"></i>
                     <span class="text-brand-cyan font-semibold">Simulador em Tempo Real</span>
                 </button>
-
                 <button onclick="switchTab('tab-quiz')" id="btn-tab-quiz" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-emerald-400 hover:bg-emerald-950/20 hover:text-emerald-300 transition-all text-left border border-emerald-500/10 bg-emerald-500/5">
                     <i class="fa-solid fa-gamepad text-lg w-6 text-emerald-400"></i>
                     <span>Quiz de Treinamento</span>
@@ -152,25 +160,44 @@
                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-2 flex items-center gap-2">
                     <i class="fa-solid fa-bars text-amber-500"></i> Navegação Cartões
                 </p>
-                
                 <button onclick="switchTab('tab-bookings-regras')" id="btn-tab-bookings-regras" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left">
                     <i class="fa-solid fa-circle-info text-lg w-6"></i>
                     <span>Regras e Tabela</span>
                 </button>
-                
                 <button onclick="switchTab('tab-bookings-exemplos')" id="btn-tab-bookings-exemplos" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left">
                     <i class="fa-solid fa-book-open text-lg w-6"></i>
                     <span>Exemplos Resolvidos</span>
                 </button>
-
                 <button onclick="switchTab('tab-bookings-simulador')" id="btn-tab-bookings-simulador" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left border border-dashed border-amber-500/20 bg-amber-500/5">
                     <i class="fa-solid fa-calculator text-lg w-6 text-amber-500"></i>
                     <span class="text-amber-500 font-semibold">Simulador de Pontos</span>
                 </button>
-
                 <button onclick="switchTab('tab-bookings-quiz')" id="btn-tab-bookings-quiz" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-emerald-400 hover:bg-emerald-950/20 hover:text-emerald-300 transition-all text-left border border-emerald-500/10 bg-emerald-500/5">
                     <i class="fa-solid fa-gamepad text-lg w-6 text-emerald-400"></i>
                     <span>Quiz de Cartões</span>
+                </button>
+            </div>
+
+            <!-- Menu de Escanteios -->
+            <div id="sidebar-corners" class="bg-[#0f172a] border border-slate-800 rounded-xl p-4 hidden flex flex-col gap-1">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-2 flex items-center gap-2">
+                    <i class="fa-solid fa-bars text-emerald-400"></i> Navegação Escanteios
+                </p>
+                <button onclick="switchTab('tab-corners-regras')" id="btn-tab-corners-regras" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left">
+                    <i class="fa-solid fa-info-circle text-lg w-6"></i>
+                    <span>Regras e Linhas</span>
+                </button>
+                <button onclick="switchTab('tab-corners-exemplos')" id="btn-tab-corners-exemplos" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left">
+                    <i class="fa-solid fa-book-open text-lg w-6"></i>
+                    <span>Cenários Práticos</span>
+                </button>
+                <button onclick="switchTab('tab-corners-simulador')" id="btn-tab-corners-simulador" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left border border-dashed border-emerald-500/20 bg-emerald-500/5">
+                    <i class="fa-solid fa-calculator text-lg w-6 text-emerald-400"></i>
+                    <span class="text-emerald-400 font-semibold">Simulador de Cantos</span>
+                </button>
+                <button onclick="switchTab('tab-corners-quiz')" id="btn-tab-corners-quiz" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-emerald-400 hover:bg-emerald-950/20 hover:text-emerald-300 transition-all text-left border border-emerald-500/10 bg-emerald-500/5">
+                    <i class="fa-solid fa-gamepad text-lg w-6 text-emerald-400"></i>
+                    <span>Quiz de Escanteios</span>
                 </button>
             </div>
 
@@ -194,7 +221,6 @@
         <section class="lg:col-span-3">
 
             <!-- ================= PAGE 1: HANDICAP ASIÁTICO ================= -->
-
             <!-- TAB 1.1: COMO FUNCIONA (CONCEITO) -->
             <div id="tab-instrucoes" class="tab-content block space-y-6">
                 <div class="bg-gradient-to-r from-slate-900 to-[#0e1b2e] border border-slate-800 rounded-2xl p-6 relative overflow-hidden">
@@ -514,10 +540,8 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        
-                        <!-- Inputs Panel (Left) -->
+                        <!-- Inputs Panel -->
                         <div class="md:col-span-1 space-y-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-                            <!-- Input 1: Handicap Selection -->
                             <div>
                                 <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">1. Escolha o Handicap</label>
                                 <select id="sim-handicap" onchange="runSimulation()" class="w-full bg-[#0b0f19] border border-slate-800 rounded-lg p-2.5 text-sm font-semibold text-white focus:outline-none focus:border-brand-cyan">
@@ -539,7 +563,6 @@
                                         <option value="+0.50">+0.50 (Meia-Linha)</option>
                                         <option value="+0.25">+0.25 (Asiático)</option>
                                     </optgroup>
-                                    <!-- Neutro -->
                                     <optgroup label="Neutro" class="bg-[#0f172a] text-slate-300">
                                         <option value="0.0">0.0 (DNB / Draw No Bet)</option>
                                     </optgroup>
@@ -564,7 +587,6 @@
                                 </select>
                             </div>
 
-                            <!-- Input 2: Placar Final -->
                             <div>
                                 <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">2. Placar Final do Jogo</label>
                                 <div class="grid grid-cols-2 gap-2">
@@ -587,7 +609,6 @@
                                 </div>
                             </div>
 
-                            <!-- Input 3: Sua Aposta -->
                             <div>
                                 <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">3. Direção da Aposta</label>
                                 <div class="grid grid-cols-2 gap-2">
@@ -601,57 +622,43 @@
                             </div>
                         </div>
 
-                        <!-- Outputs Panel (Right) -->
+                        <!-- Outputs Panel -->
                         <div class="md:col-span-2 space-y-4 flex flex-col justify-between">
-                            
-                            <!-- Top Visual Verdict Card -->
                             <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-5 flex flex-col items-center justify-center text-center relative">
                                 <span class="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-1">Resultado Consolidado</span>
-                                <div id="verdict-text" class="text-2xl font-black text-white tracking-wide">
-                                    CARREGANDO...
-                                </div>
-                                <div id="verdict-desc" class="text-xs text-slate-400 mt-2 max-w-sm">
-                                    Selecione os parâmetros ao lado para simular.
-                                </div>
+                                <div id="verdict-text" class="text-2xl font-black text-white tracking-wide">CARREGANDO...</div>
+                                <div id="verdict-desc" class="text-xs text-slate-400 mt-2 max-w-sm">Selecione os parâmetros ao lado para simular.</div>
                             </div>
 
-                            <!-- Bottom Detailed Breakdowns -->
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <!-- Half A Card -->
                                 <div id="half-a-box" class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
                                     <div>
                                         <div class="flex items-center justify-between mb-2">
                                             <span id="half-a-title" class="text-[10px] font-bold text-slate-500 uppercase">Metade da Aposta A</span>
                                             <span id="half-a-badge" class="px-2 py-0.5 text-[10px] rounded font-bold uppercase">--</span>
                                         </div>
-                                        <div class="text-sm font-bold text-white mb-1">
-                                            Linha: <span id="half-a-line" class="font-mono text-brand-cyan">--</span>
-                                        </div>
+                                        <div class="text-sm font-bold text-white mb-1">Linha: <span id="half-a-line" class="font-mono text-brand-cyan">--</span></div>
                                         <p id="half-a-math" class="text-xs text-slate-400 leading-relaxed">--</p>
                                     </div>
                                 </div>
 
-                                <!-- Half B Card -->
                                 <div id="half-b-box" class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
                                     <div>
                                         <div class="flex items-center justify-between mb-2">
                                             <span id="half-b-title" class="text-[10px] font-bold text-slate-500 uppercase">Metade da Aposta B</span>
                                             <span id="half-b-badge" class="px-2 py-0.5 text-[10px] rounded font-bold uppercase">--</span>
                                         </div>
-                                        <div class="text-sm font-bold text-white mb-1">
-                                            Linha: <span id="half-b-line" class="font-mono text-brand-cyan">--</span>
-                                        </div>
+                                        <div class="text-sm font-bold text-white mb-1">Linha: <span id="half-b-line" class="font-mono text-brand-cyan">--</span></div>
                                         <p id="half-b-math" class="text-xs text-slate-400 leading-relaxed">--</p>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB 1.6: QUIZ INTERATIVO (DYNÁMICO) -->
+            <!-- TAB 1.6: QUIZ INTERATIVO -->
             <div id="tab-quiz" class="tab-content hidden space-y-6">
                 <div class="bg-gradient-to-br from-slate-900 to-[#0c1e30] border border-slate-800 rounded-2xl p-6 relative overflow-hidden">
                     <div class="absolute right-0 top-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -671,74 +678,48 @@
                         </div>
                     </div>
 
-                    <!-- Progress bar -->
                     <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mb-6">
                         <div id="quiz-progress-bar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 20%;"></div>
                     </div>
 
-                    <!-- Question & Options Panel -->
                     <div id="quiz-active-panel" class="space-y-6">
                         <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
-                            <h4 id="quiz-question-text" class="text-sm sm:text-base font-bold text-white leading-relaxed">
-                                Gerando questão procedural a partir de +50 cenários...
-                            </h4>
+                            <h4 id="quiz-question-text" class="text-sm sm:text-base font-bold text-white leading-relaxed">Gerando questão...</h4>
                         </div>
-
-                        <!-- Answer Options -->
-                        <div class="grid grid-cols-2 gap-3" id="quiz-options-container">
-                            <!-- Options injected dynamically by JS -->
-                        </div>
-
-                        <!-- Rationales Feedback Card -->
+                        <div class="grid grid-cols-2 gap-3" id="quiz-options-container"></div>
                         <div id="quiz-feedback-box" class="hidden rounded-xl p-4 border transition-all">
                             <div class="flex items-start gap-3">
                                 <div id="quiz-feedback-icon" class="text-lg mt-0.5"></div>
                                 <div>
                                     <h5 id="quiz-feedback-title" class="text-xs font-bold uppercase tracking-wider">Resultado</h5>
-                                    <p id="quiz-feedback-explanation" class="text-xs text-slate-300 mt-1 leading-relaxed">Explicação detalhada...</p>
+                                    <p id="quiz-feedback-explanation" class="text-xs text-slate-300 mt-1 leading-relaxed"></p>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Bottom Navigation Inside Quiz -->
                         <div class="flex justify-end">
-                            <button onclick="nextQuizQuestion()" id="quiz-btn-action" disabled class="px-5 py-2.5 bg-slate-800 text-slate-500 font-bold text-xs rounded-lg border border-slate-700 transition-all cursor-not-allowed">
-                                Selecione uma resposta
-                            </button>
+                            <button onclick="nextQuizQuestion()" id="quiz-btn-action" disabled class="px-5 py-2.5 bg-slate-800 text-slate-500 font-bold text-xs rounded-lg border border-slate-700 transition-all cursor-not-allowed">Selecione uma resposta</button>
                         </div>
                     </div>
 
-                    <!-- Scoreboard Panel (End of Quiz) -->
                     <div id="quiz-score-panel" class="hidden text-center py-8 space-y-6">
                         <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-4xl mb-2 animate-bounce">
                             <i class="fa-solid fa-trophy"></i>
                         </div>
                         <div>
                             <h4 class="text-xl font-extrabold text-white">Treinamento Finalizado!</h4>
-                            <p class="text-xs text-slate-400 mt-1">Veja seu resultado no quiz de handicaps gerados aleatoriamente</p>
                         </div>
-
                         <div class="max-w-xs mx-auto bg-slate-900/80 border border-slate-800 rounded-xl p-5">
-                            <div class="text-3xl font-black text-emerald-400 font-mono" id="quiz-score-display">
-                                0 / 5
-                            </div>
+                            <div class="text-3xl font-black text-emerald-400 font-mono" id="quiz-score-display">0 / 5</div>
                             <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mt-1">Pontuação Final</p>
-                            <p class="text-xs text-slate-300 mt-3 font-medium leading-relaxed" id="quiz-score-message">
-                                Excelente! Você tem ótima base analítica.
-                            </p>
+                            <p class="text-xs text-slate-300 mt-3 font-medium leading-relaxed" id="quiz-score-message"></p>
                         </div>
-
-                        <button onclick="startQuiz()" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-[#0b0f19] px-6 py-3 rounded-xl text-xs font-extrabold transition-all shadow-lg">
-                            <i class="fa-solid fa-rotate-left"></i> Iniciar Novo Treinamento
-                        </button>
+                        <button onclick="startQuiz()" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-[#0b0f19] px-6 py-3 rounded-xl text-xs font-extrabold transition-all shadow-lg">Refazer Treinamento</button>
                     </div>
-
                 </div>
             </div>
 
 
             <!-- ================= PAGE 2: BOOKING POINTS (CARTÕES) ================= -->
-            
             <!-- TAB 2.1: REGRAS E TABELA -->
             <div id="tab-bookings-regras" class="tab-content hidden space-y-6">
                 <div class="bg-gradient-to-r from-[#1e1b13] to-[#0f172a] border border-amber-500/20 rounded-2xl p-6 relative overflow-hidden">
@@ -749,47 +730,35 @@
                         </div>
                         <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">O que são Booking Points?</h2>
                         <p class="text-slate-400 mt-2 text-sm sm:text-base leading-relaxed">
-                            É um mercado onde os cartões distribuídos ao longo de um evento esportivo são convertidos em pontos. Entender a pesagem exata de cada tipo de punição é crucial para operar de forma lucrativa neste mercado de alta liquidez.
+                            É um mercado onde os cartões distribuídos ao longo de um evento esportivo são convertidos em pontos. Entender a pesagem exata de cada tipo de punição é crucial para operar de forma lucrativa neste mercado.
                         </p>
                     </div>
                 </div>
 
-                <!-- Tabela de Pontos -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 hover:border-amber-500/30 transition-all text-center">
-                        <div class="w-12 h-16 bg-amber-500 rounded mx-auto mb-4 flex items-center justify-center font-bold text-[#0b0f19] text-xl shadow-lg">
-                            10
-                        </div>
+                        <div class="w-12 h-16 bg-amber-500 rounded mx-auto mb-4 flex items-center justify-center font-bold text-[#0b0f19] text-xl shadow-lg">10</div>
                         <h4 class="font-bold text-white text-sm uppercase">Cartão Amarelo</h4>
-                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Cada cartão amarelo apresentado no jogo soma exatos <strong>10 pontos</strong> para o jogador/equipe.</p>
+                        <p class="text-xs text-slate-400 mt-2">Cada cartão amarelo apresentado soma exatos <strong>10 pontos</strong> para o jogador/equipe.</p>
                     </div>
-
                     <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 hover:border-rose-500/30 transition-all text-center">
-                        <div class="w-12 h-16 bg-rose-500 rounded mx-auto mb-4 flex items-center justify-center font-bold text-white text-xl shadow-lg">
-                            25
-                        </div>
+                        <div class="w-12 h-16 bg-rose-500 rounded mx-auto mb-4 flex items-center justify-center font-bold text-white text-xl shadow-lg">25</div>
                         <h4 class="font-bold text-white text-sm uppercase">Vermelho Direto</h4>
-                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Cartões vermelhos aplicados de forma direta acumulam imediatamente <strong>25 pontos</strong>.</p>
+                        <p class="text-xs text-slate-400 mt-2">Cartões vermelhos aplicados de forma direta acumulam imediatamente <strong>25 pontos</strong>.</p>
                     </div>
-
                     <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-5 hover:border-red-600/30 transition-all text-center">
-                        <div class="w-12 h-16 bg-gradient-to-br from-amber-500 to-rose-500 rounded mx-auto mb-4 flex items-center justify-center font-bold text-white text-xl shadow-lg relative overflow-hidden">
-                            35
-                        </div>
+                        <div class="w-12 h-16 bg-gradient-to-br from-amber-500 to-rose-500 rounded mx-auto mb-4 flex items-center justify-center font-bold text-white text-xl shadow-lg relative overflow-hidden">35</div>
                         <h4 class="font-bold text-white text-sm uppercase">Segundo Amarelo (Expulsão)</h4>
-                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Quando um jogador que já tem amarelo recebe o segundo e é expulso, são somados <strong>35 pontos</strong> no total deste jogador.</p>
+                        <p class="text-xs text-slate-400 mt-2">Quando um jogador já amarelado recebe o segundo e é expulso, são somados <strong>35 pontos</strong> no total deste jogador.</p>
                     </div>
                 </div>
 
-                <!-- Alerta importante -->
                 <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex items-start gap-3">
-                    <div class="text-amber-500 mt-0.5 text-lg">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </div>
+                    <div class="text-amber-500 mt-0.5 text-lg"><i class="fa-solid fa-triangle-exclamation"></i></div>
                     <div>
                         <h4 class="text-xs font-bold text-white uppercase tracking-wider">Atenção com as Casas de Apostas</h4>
                         <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-                            As regras específicas de liquidação (como cartões para comissão técnica ou jogadores no banco de reservas) podem variar conforme cada plataforma de apostas. Sempre certifique-se das regras de liquidação de cartões da casa onde opera!
+                            As regras específicas de liquidação (como cartões para comissão técnica ou jogadores no banco de reservas) podem variar conforme cada plataforma de apostas.
                         </p>
                     </div>
                 </div>
@@ -798,13 +767,10 @@
             <!-- TAB 2.2: EXEMPLOS RESOLVIDOS -->
             <div id="tab-bookings-exemplos" class="tab-content hidden space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    
                     <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
-                        <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm mb-3">
-                            <i class="fa-solid fa-circle-check"></i> Cenário 1: Mais de 35.5 Pontos
-                        </div>
+                        <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm mb-3"><i class="fa-solid fa-circle-check"></i> Cenário 1: Mais de 35.5 Pontos</div>
                         <div class="space-y-2 mb-4 text-xs text-slate-300">
-                            <p class="text-slate-400">Cartões computados durante a partida:</p>
+                            <p class="text-slate-400">Cartões computados:</p>
                             <ul class="space-y-1 font-mono">
                                 <li>• 2 Cartões Amarelos = <span class="text-white font-bold">20 pontos</span></li>
                                 <li>• 1 Vermelho Direto = <span class="text-white font-bold">25 pontos</span></li>
@@ -817,30 +783,26 @@
                     </div>
 
                     <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
-                        <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm mb-3">
-                            <i class="fa-solid fa-circle-check"></i> Cenário 2: Menos de 25.5 Pontos
-                        </div>
+                        <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm mb-3"><i class="fa-solid fa-circle-check"></i> Cenário 2: Menos de 25.5 Pontos</div>
                         <div class="space-y-2 mb-4 text-xs text-slate-300">
-                            <p class="text-slate-400">Cartões computados durante a partida:</p>
+                            <p class="text-slate-400">Cartões computados:</p>
                             <ul class="space-y-1 font-mono">
                                 <li>• 2 Cartões Amarelos = <span class="text-white font-bold">20 pontos</span></li>
                             </ul>
                         </div>
                         <div class="border-t border-slate-800/60 pt-3 flex justify-between items-center text-xs">
-                            <span class="text-slate-400">Total acumulado: <strong class="text-emerald-400 font-mono">20 pontos</strong></span>
+                            <span class="text-slate-400">Total: <strong class="text-emerald-400 font-mono">20 pontos</strong></span>
                             <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded font-bold uppercase">✅ Vencedora</span>
                         </div>
                     </div>
 
                     <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
-                        <div class="flex items-center gap-2 text-amber-500 font-semibold text-sm mb-3">
-                            <i class="fa-solid fa-circle-exclamation"></i> Cenário 3: Expulsão por Duplo Amarelo
-                        </div>
+                        <div class="flex items-center gap-2 text-amber-500 font-semibold text-sm mb-3"><i class="fa-solid fa-circle-exclamation"></i> Cenário 3: Expulsão por Duplo Amarelo</div>
                         <div class="space-y-2 mb-4 text-xs text-slate-300">
-                            <p class="text-slate-400">Um único jogador recebe:</p>
+                            <p class="text-slate-400">Um jogador recebe:</p>
                             <ul class="space-y-1 font-mono">
-                                <li>• 1º Amarelo = <span class="text-white">10 pontos</span></li>
-                                <li>• 2º Amarelo + Expulsão = <span class="text-white">35 pontos (acumulado dele)</span></li>
+                                <li>• 1º Amarelo = 10 pontos</li>
+                                <li>• 2º Amarelo + Expulsão = 35 pontos (acumulado dele)</li>
                             </ul>
                         </div>
                         <div class="border-t border-slate-800/60 pt-3 flex justify-between items-center text-xs">
@@ -850,13 +812,11 @@
                     </div>
 
                     <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
-                        <div class="flex items-center gap-2 text-brand-cyan font-semibold text-sm mb-3">
-                            <i class="fa-solid fa-shield-halved"></i> Cenário 4: Mercado por Equipe
-                        </div>
+                        <div class="flex items-center gap-2 text-brand-cyan font-semibold text-sm mb-3"><i class="fa-solid fa-shield-halved"></i> Cenário 4: Mercado por Equipe</div>
                         <div class="space-y-2 mb-4 text-xs text-slate-300">
-                            <p class="text-slate-400">Apenas os cartões do Flamengo no clássico:</p>
+                            <p class="text-slate-400">Cartões do Flamengo no clássico:</p>
                             <ul class="space-y-1 font-mono">
-                                <li>• Flamengo recebe: 3 Amarelos = <span class="text-white">30 pontos</span></li>
+                                <li>• Flamengo: 3 Amarelos = 30 pontos</li>
                             </ul>
                         </div>
                         <div class="border-t border-slate-800/60 pt-3 flex justify-between items-center text-xs">
@@ -864,7 +824,6 @@
                             <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded font-bold uppercase">✅ Vencedora</span>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -872,11 +831,8 @@
             <div id="tab-bookings-simulador" class="tab-content hidden space-y-6">
                 <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute right-0 top-0 w-24 h-24 bg-amber-500/5 rounded-full blur-2xl pointer-events-none"></div>
-                    
                     <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500">
-                            <i class="fa-solid fa-calculator text-lg"></i>
-                        </div>
+                        <div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500"><i class="fa-solid fa-calculator text-lg"></i></div>
                         <div>
                             <h3 class="text-lg font-bold text-white">Calculadora de Booking Points</h3>
                             <p class="text-xs text-slate-400">Configure os cartões aplicados a cada equipe e avalie o fechamento das linhas de aposta</p>
@@ -884,45 +840,30 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        
-                        <!-- Painel de Inputs (Esquerda) -->
                         <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            
-                            <!-- Cartões do Mandante -->
+                            <!-- Casa -->
                             <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 space-y-3">
                                 <h4 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-800 pb-2">
-                                    <i class="fa-solid fa-house text-brand-cyan"></i> Equipe Mandante (Casa)
+                                    <i class="fa-solid fa-house text-brand-cyan"></i> Mandante (Casa)
                                 </h4>
-                                
-                                <!-- Amarelos Mandante -->
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs text-slate-400 flex items-center gap-2">
-                                        <span class="w-2.5 h-4 bg-amber-500 rounded"></span> Amarelos (10 pts)
-                                    </span>
+                                    <span class="text-xs text-slate-400 flex items-center gap-2"><span class="w-2.5 h-4 bg-amber-500 rounded"></span> Amarelos (10 pts)</span>
                                     <div class="flex items-center gap-2">
                                         <button onclick="changeCards('home', 'yellow', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">-</button>
                                         <span id="card-home-yellow" class="font-mono text-sm font-bold text-white w-4 text-center">0</span>
                                         <button onclick="changeCards('home', 'yellow', 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">+</button>
                                     </div>
                                 </div>
-
-                                <!-- Vermelhos Diretos Mandante -->
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs text-slate-400 flex items-center gap-2">
-                                        <span class="w-2.5 h-4 bg-rose-500 rounded"></span> Vermelho Direto (25 pts)
-                                    </span>
+                                    <span class="text-xs text-slate-400 flex items-center gap-2"><span class="w-2.5 h-4 bg-rose-500 rounded"></span> Vermelho Direto (25 pts)</span>
                                     <div class="flex items-center gap-2">
                                         <button onclick="changeCards('home', 'red', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">-</button>
                                         <span id="card-home-red" class="font-mono text-sm font-bold text-white w-4 text-center">0</span>
                                         <button onclick="changeCards('home', 'red', 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">+</button>
                                     </div>
                                 </div>
-
-                                <!-- 2º Amarelo Mandante -->
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs text-slate-400 flex items-center gap-2">
-                                        <span class="w-2.5 h-4 bg-gradient-to-b from-amber-500 to-rose-500 rounded"></span> Duplo Amarelo (35 pts)
-                                    </span>
+                                    <span class="text-xs text-slate-400 flex items-center gap-2"><span class="w-2.5 h-4 bg-gradient-to-b from-amber-500 to-rose-500 rounded"></span> Duplo Amarelo (35 pts)</span>
                                     <div class="flex items-center gap-2">
                                         <button onclick="changeCards('home', 'double', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">-</button>
                                         <span id="card-home-double" class="font-mono text-sm font-bold text-white w-4 text-center">0</span>
@@ -930,42 +871,29 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Cartões do Visitante -->
+                            <!-- Fora -->
                             <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 space-y-3">
                                 <h4 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-800 pb-2">
-                                    <i class="fa-solid fa-plane text-indigo-400"></i> Equipe Visitante
+                                    <i class="fa-solid fa-plane text-indigo-400"></i> Visitante
                                 </h4>
-                                
-                                <!-- Amarelos Visitante -->
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs text-slate-400 flex items-center gap-2">
-                                        <span class="w-2.5 h-4 bg-amber-500 rounded"></span> Amarelos (10 pts)
-                                    </span>
+                                    <span class="text-xs text-slate-400 flex items-center gap-2"><span class="w-2.5 h-4 bg-amber-500 rounded"></span> Amarelos (10 pts)</span>
                                     <div class="flex items-center gap-2">
                                         <button onclick="changeCards('away', 'yellow', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">-</button>
                                         <span id="card-away-yellow" class="font-mono text-sm font-bold text-white w-4 text-center">0</span>
                                         <button onclick="changeCards('away', 'yellow', 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">+</button>
                                     </div>
                                 </div>
-
-                                <!-- Vermelhos Diretos Visitante -->
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs text-slate-400 flex items-center gap-2">
-                                        <span class="w-2.5 h-4 bg-rose-500 rounded"></span> Vermelho Direto (25 pts)
-                                    </span>
+                                    <span class="text-xs text-slate-400 flex items-center gap-2"><span class="w-2.5 h-4 bg-rose-500 rounded"></span> Vermelho Direto (25 pts)</span>
                                     <div class="flex items-center gap-2">
                                         <button onclick="changeCards('away', 'red', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">-</button>
                                         <span id="card-away-red" class="font-mono text-sm font-bold text-white w-4 text-center">0</span>
                                         <button onclick="changeCards('away', 'red', 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">+</button>
                                     </div>
                                 </div>
-
-                                <!-- 2º Amarelo Visitante -->
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs text-slate-400 flex items-center gap-2">
-                                        <span class="w-2.5 h-4 bg-gradient-to-b from-amber-500 to-rose-500 rounded"></span> Duplo Amarelo (35 pts)
-                                    </span>
+                                    <span class="text-xs text-slate-400 flex items-center gap-2"><span class="w-2.5 h-4 bg-gradient-to-b from-amber-500 to-rose-500 rounded"></span> Duplo Amarelo (35 pts)</span>
                                     <div class="flex items-center gap-2">
                                         <button onclick="changeCards('away', 'double', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">-</button>
                                         <span id="card-away-double" class="font-mono text-sm font-bold text-white w-4 text-center">0</span>
@@ -973,13 +901,9 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
-                        <!-- Painel de Resultados (Direita) -->
                         <div class="md:col-span-1 flex flex-col justify-between gap-4">
-                            
-                            <!-- Total de Pontos Consolidado -->
                             <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl text-center space-y-1">
                                 <span class="text-[10px] font-bold tracking-widest text-slate-500 uppercase">Pontos Totais</span>
                                 <div id="card-total-points" class="text-4xl font-black text-white font-mono">0</div>
@@ -989,10 +913,8 @@
                                 </div>
                             </div>
 
-                            <!-- Teste de Linha (O/U) -->
                             <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2.5">
                                 <span class="text-[10px] font-bold tracking-widest text-slate-500 uppercase block">Verificar Fechamento</span>
-                                
                                 <select id="card-sim-line" onchange="runCardsSimulation()" class="w-full bg-[#0b0f19] border border-slate-800 rounded-lg p-2 text-xs font-semibold text-white focus:outline-none focus:border-amber-500">
                                     <option value="total-over-35.5">Total de Pontos: Mais de 35.5</option>
                                     <option value="total-under-35.5">Total de Pontos: Menos de 35.5</option>
@@ -1001,12 +923,8 @@
                                     <option value="home-over-20.5">Casa: Mais de 20.5</option>
                                     <option value="away-over-20.5">Visitante: Mais de 20.5</option>
                                 </select>
-
-                                <div id="card-sim-verdict" class="py-2 px-3 rounded-lg text-center text-xs font-bold bg-slate-800 text-slate-400 border border-slate-700">
-                                    Aposta Liquidada
-                                </div>
+                                <div id="card-sim-verdict" class="py-2 px-3 rounded-lg text-center text-xs font-bold bg-slate-800 text-slate-400 border border-slate-700">Aposta Liquidada</div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -1016,84 +934,302 @@
             <div id="tab-bookings-quiz" class="tab-content hidden space-y-6">
                 <div class="bg-gradient-to-br from-slate-900 to-[#1d160f] border border-amber-500/20 rounded-2xl p-6 relative overflow-hidden">
                     <div class="absolute right-0 top-0 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
-                    
                     <div class="flex items-center justify-between mb-6">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 animate-pulse">
-                                <i class="fa-solid fa-graduation-cap text-lg"></i>
-                            </div>
+                            <div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 animate-pulse"><i class="fa-solid fa-graduation-cap text-lg"></i></div>
                             <div>
                                 <h3 class="text-lg font-bold text-white">Quiz de Booking Points</h3>
                                 <p class="text-xs text-slate-400">Domine as somas de cartões e teste sua precisão de liquidação</p>
                             </div>
                         </div>
-                        <div class="text-xs bg-slate-800 text-slate-300 font-bold font-mono px-3 py-1.5 rounded-lg border border-slate-700">
-                            Questão <span id="card-quiz-progress-text" class="text-amber-500">1</span> de 5
-                        </div>
+                        <div class="text-xs bg-slate-800 text-slate-300 font-bold font-mono px-3 py-1.5 rounded-lg border border-slate-700">Questão <span id="card-quiz-progress-text" class="text-amber-500">1</span> de 5</div>
                     </div>
 
-                    <!-- Progress bar -->
-                    <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mb-6">
-                        <div id="card-quiz-progress-bar" class="h-full bg-amber-500 transition-all duration-300" style="width: 20%;"></div>
-                    </div>
+                    <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mb-6"><div id="card-quiz-progress-bar" class="h-full bg-amber-500 transition-all duration-300" style="width: 20%;"></div></div>
 
-                    <!-- Question & Options Panel -->
                     <div id="card-quiz-active-panel" class="space-y-6">
-                        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
-                            <h4 id="card-quiz-question-text" class="text-sm sm:text-base font-bold text-white leading-relaxed">
-                                Gerando questão procedural de cartões...
-                            </h4>
-                        </div>
-
-                        <!-- Answer Options -->
-                        <div class="grid grid-cols-2 gap-3" id="card-quiz-options-container">
-                            <!-- Options injected dynamically by JS -->
-                        </div>
-
-                        <!-- Rationales Feedback Card -->
+                        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5"><h4 id="card-quiz-question-text" class="text-sm sm:text-base font-bold text-white leading-relaxed">Gerando questão...</h4></div>
+                        <div class="grid grid-cols-2 gap-3" id="card-quiz-options-container"></div>
                         <div id="card-quiz-feedback-box" class="hidden rounded-xl p-4 border transition-all">
                             <div class="flex items-start gap-3">
                                 <div id="card-quiz-feedback-icon" class="text-lg mt-0.5"></div>
                                 <div>
                                     <h5 id="card-quiz-feedback-title" class="text-xs font-bold uppercase tracking-wider">Resultado</h5>
-                                    <p id="card-quiz-feedback-explanation" class="text-xs text-slate-300 mt-1 leading-relaxed">Explicação detalhada...</p>
+                                    <p id="card-quiz-feedback-explanation" class="text-xs text-slate-300 mt-1 leading-relaxed"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end"><button onclick="nextCardQuizQuestion()" id="card-quiz-btn-action" disabled class="px-5 py-2.5 bg-slate-800 text-slate-500 font-bold text-xs rounded-lg border border-slate-700 transition-all cursor-not-allowed">Selecione uma resposta</button></div>
+                    </div>
+
+                    <div id="card-quiz-score-panel" class="hidden text-center py-8 space-y-6">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-500 text-4xl mb-2 animate-bounce"><i class="fa-solid fa-trophy"></i></div>
+                        <div>
+                            <h4 class="text-xl font-extrabold text-white">Quiz de Cartões Concluído!</h4>
+                        </div>
+                        <div class="max-w-xs mx-auto bg-slate-900/80 border border-slate-800 rounded-xl p-5">
+                            <div class="text-3xl font-black text-amber-500 font-mono" id="card-quiz-score-display">0 / 5</div>
+                            <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mt-1">Pontuação Final</p>
+                            <p class="text-xs text-slate-300 mt-3 font-medium leading-relaxed" id="card-quiz-score-message"></p>
+                        </div>
+                        <button onclick="startCardQuiz()" class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-[#0b0f19] px-6 py-3 rounded-xl text-xs font-extrabold transition-all shadow-lg">Refazer Teste</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ================= PAGE 3: MERCADO DE ESCANTEIOS (CORNERS) ================= -->
+            <!-- TAB 3.1: REGRAS E LINHAS -->
+            <div id="tab-corners-regras" class="tab-content hidden space-y-6">
+                <div class="bg-gradient-to-r from-[#0d2319] to-[#0f172a] border border-emerald-500/20 rounded-2xl p-6 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-emerald-500/5 to-transparent pointer-events-none"></div>
+                    <div class="relative z-10 max-w-2xl">
+                        <div class="flex items-center gap-2 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-2">
+                            <i class="fa-solid fa-flag"></i> Mercado de Cantos (Escanteios)
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Análise do Mercado de Escanteios</h2>
+                        <p class="text-slate-400 mt-2 text-sm sm:text-base leading-relaxed">
+                            Funciona de forma parecida com os mercados de gols no formato Over/Under. No entanto, é fundamental estar atento às regras de liquidação: os cantos são contabilizados apenas se forem **efetivamente cobrados** durante o tempo regulamentar.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tabela Didática de Linhas de Escanteios -->
+                <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
+                    <h3 class="text-base font-bold text-white mb-3">Linhas de Escanteios e Comportamentos</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800/80">
+                            <span class="text-emerald-400 font-extrabold font-mono text-sm block mb-1">Padrão (.5)</span>
+                            <p class="text-xs text-slate-400 leading-relaxed">Não há empate. Ex: <strong>Mais de 9.5</strong> ganha com 10 ou mais; perde com 9 ou menos.</p>
+                        </div>
+                        <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800/80">
+                            <span class="text-emerald-400 font-extrabold font-mono text-sm block mb-1">Asiáticos Cheios (.0)</span>
+                            <p class="text-xs text-slate-400 leading-relaxed">Permite reembolso total. Ex: <strong>Mais de 9.0</strong> ganha com 10, é reembolsado com 9 e perde com 8.</p>
+                        </div>
+                        <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800/80">
+                            <span class="text-emerald-400 font-extrabold font-mono text-sm block mb-1">Divididos (.25 / .75)</span>
+                            <p class="text-xs text-slate-400 leading-relaxed">Sua aposta é dividida em duas metades vizinhas, resultando em meio ganho ou meia perda.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-emerald-950/20 border border-emerald-500/20 rounded-xl p-4 flex items-start gap-3">
+                    <div class="text-emerald-400 mt-0.5 text-lg"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div>
+                        <h4 class="text-xs font-bold text-white uppercase tracking-wider">⚠️ ATENÇÃO COM A REGRA DE COBRANÇA</h4>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            Um escanteio que foi assinalado pelo árbitro mas o jogo terminou antes de ser efetivamente cobrado **NÃO** conta para os propósitos de liquidação final.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3.2: CENÁRIOS PRÁTICOS (ESCANTEIOS) -->
+            <div id="tab-corners-exemplos" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
+                        <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm mb-3"><i class="fa-solid fa-circle-check"></i> Over 8.5 Escanteios (Padrão)</div>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-3">Partida termina com 5 escanteios do Time A e 4 escanteios do Time B.</p>
+                        <div class="border-t border-slate-800/60 pt-3 flex justify-between items-center text-xs">
+                            <span class="text-slate-300">Total: <strong class="text-emerald-400">9 escanteios</strong></span>
+                            <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded font-bold uppercase">✅ Ganha (9 > 8.5)</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
+                        <div class="flex items-center gap-2 text-rose-400 font-semibold text-sm mb-3"><i class="fa-solid fa-circle-xmark"></i> Over 10.5 Escanteios (Padrão)</div>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-3">Partida termina com 6 escanteios do Time A e 4 escanteios do Time B.</p>
+                        <div class="border-t border-slate-800/60 pt-3 flex justify-between items-center text-xs">
+                            <span class="text-slate-300">Total: <strong class="text-rose-400">10 escanteios</strong></span>
+                            <span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 px-2 py-0.5 rounded font-bold uppercase">❌ Perdida (10 < 10.5)</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
+                        <div class="flex items-center gap-2 text-blue-400 font-semibold text-sm mb-3"><i class="fa-solid fa-rotate-left"></i> Over 9.0 Escanteios (Asiático Inteiro)</div>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-3">Se a partida terminar com exatamente 9 escanteios cobrados ao todo.</p>
+                        <div class="border-t border-slate-800/60 pt-3 flex justify-between items-center text-xs">
+                            <span class="text-slate-300">Total: <strong class="text-blue-400">9 escanteios</strong></span>
+                            <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded font-bold uppercase">🔄 Devolvida (Reembolso)</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
+                        <div class="flex items-center gap-2 text-amber-500 font-semibold text-sm mb-3"><i class="fa-solid fa-circle-exclamation"></i> Over 9.25 Escanteios (Asiático Split)</div>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-3">Metade em Over 9.0 (Reembolso) e metade em Over 9.5 (Perda). Total do jogo: 9 escanteios.</p>
+                        <div class="border-t border-slate-800/60 pt-3 flex justify-between items-center text-xs">
+                            <span class="text-slate-300">Total: <strong class="text-amber-500">9 escanteios</strong></span>
+                            <span class="bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-0.5 rounded font-bold uppercase">🟡 Meia Perda</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5 md:col-span-2">
+                        <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm mb-3"><i class="fa-solid fa-shield-halved"></i> Escanteios por Equipe (Flamengo Over 5.5)</div>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-3">Sua operação depende unicamente do time do Flamengo cobrar 6 ou mais escanteios no confronto.</p>
+                        <div class="border-t border-slate-800/60 pt-3 flex justify-between items-center text-xs">
+                            <span class="text-slate-300">Flamengo cobrou: <strong class="text-emerald-400">6 escanteios</strong></span>
+                            <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded font-bold uppercase">✅ Vencedora</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- TAB 3.3: SIMULADOR DE ESCANTEIOS -->
+            <div id="tab-corners-simulador" class="tab-content hidden space-y-6">
+                <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none"></div>
+                    
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                            <i class="fa-solid fa-calculator text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Calculadora de Escanteios Asiáticos</h3>
+                            <p class="text-xs text-slate-400">Escolha uma linha (inteira, meia ou fracionada) e teste o saldo final de cantos</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Inputs Panel (Left) -->
+                        <div class="md:col-span-1 space-y-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">1. Escolha a Linha</label>
+                                <select id="sim-corners-line" onchange="runCornersSimulation()" class="w-full bg-[#0b0f19] border border-slate-800 rounded-lg p-2.5 text-sm font-semibold text-white focus:outline-none focus:border-emerald-500">
+                                    <option value="7.5">7.5 escanteios (Meia-Linha)</option>
+                                    <option value="7.75">7.75 escanteios (Asiático Split)</option>
+                                    <option value="8.0">8.0 escanteios (Asiático Inteiro)</option>
+                                    <option value="8.25">8.25 escanteios (Asiático Split)</option>
+                                    <option value="8.5">8.5 escanteios (Meia-Linha)</option>
+                                    <option value="8.75">8.75 escanteios (Asiático Split)</option>
+                                    <option value="9.0" selected>9.0 escanteios (Asiático Inteiro)</option>
+                                    <option value="9.25">9.25 escanteios (Asiático Split)</option>
+                                    <option value="9.5">9.5 escanteios (Meia-Linha)</option>
+                                    <option value="9.75">9.75 escanteios (Asiático Split)</option>
+                                    <option value="10.0">10.0 escanteios (Asiático Inteiro)</option>
+                                    <option value="10.25">10.25 escanteios (Asiático Split)</option>
+                                    <option value="10.5">10.5 escanteios (Meia-Linha)</option>
+                                    <option value="10.75">10.75 escanteios (Asiático Split)</option>
+                                    <option value="11.0">11.0 escanteios (Asiático Inteiro)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">2. Direção (Over / Under)</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button onclick="selectCornersType('over')" id="btn-corners-over" class="px-3 py-2 rounded-lg text-xs font-bold border transition-all bg-[#10b981]/10 border-[#10b981] text-[#10b981]">
+                                        Mais de (Over)
+                                    </button>
+                                    <button onclick="selectCornersType('under')" id="btn-corners-under" class="px-3 py-2 rounded-lg text-xs font-bold border border-slate-800 bg-[#0b0f19] text-slate-400 hover:bg-slate-800/50">
+                                        Menos de (Under)
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">3. Escanteios Cobrados</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="bg-[#0b0f19] border border-slate-800 rounded-lg p-2 flex flex-col items-center">
+                                        <span class="text-[10px] text-slate-500 font-bold uppercase mb-1">Casa</span>
+                                        <div class="flex items-center gap-2">
+                                            <button onclick="changeCornersCount('home', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">-</button>
+                                            <span id="corners-home" class="font-mono text-lg font-bold text-white">5</span>
+                                            <button onclick="changeCornersCount('home', 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="bg-[#0b0f19] border border-slate-800 rounded-lg p-2 flex flex-col items-center">
+                                        <span class="text-[10px] text-slate-500 font-bold uppercase mb-1">Visitante</span>
+                                        <div class="flex items-center gap-2">
+                                            <button onclick="changeCornersCount('away', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">-</button>
+                                            <span id="corners-away" class="font-mono text-lg font-bold text-white">4</span>
+                                            <button onclick="changeCornersCount('away', 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">+</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Bottom Navigation Inside Quiz -->
-                        <div class="flex justify-end">
-                            <button onclick="nextCardQuizQuestion()" id="card-quiz-btn-action" disabled class="px-5 py-2.5 bg-slate-800 text-slate-500 font-bold text-xs rounded-lg border border-slate-700 transition-all cursor-not-allowed">
-                                Selecione uma resposta
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Scoreboard Panel (End of Quiz) -->
-                    <div id="card-quiz-score-panel" class="hidden text-center py-8 space-y-6">
-                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-500 text-4xl mb-2 animate-bounce">
-                            <i class="fa-solid fa-trophy"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-xl font-extrabold text-white">Quiz de Cartões Concluído!</h4>
-                            <p class="text-xs text-slate-400 mt-1">Veja sua pontuação no fechamento de cenários procedurais</p>
-                        </div>
-
-                        <div class="max-w-xs mx-auto bg-slate-900/80 border border-slate-800 rounded-xl p-5">
-                            <div class="text-3xl font-black text-amber-500 font-mono" id="card-quiz-score-display">
-                                0 / 5
+                        <!-- Outputs Panel (Right) -->
+                        <div class="md:col-span-2 space-y-4 flex flex-col justify-between">
+                            <div class="bg-[#0f172a]/40 border border-slate-800 rounded-xl p-5 flex flex-col items-center justify-center text-center relative">
+                                <span class="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-1">Total Cobrado: <strong id="total-corners-sum" class="text-white">9</strong></span>
+                                <div id="corners-verdict-text" class="text-2xl font-black text-white tracking-wide">Calculando...</div>
+                                <div id="corners-verdict-desc" class="text-xs text-slate-400 mt-2 max-w-sm">Insira os valores.</div>
                             </div>
-                            <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mt-1">Pontuação Final</p>
-                            <p class="text-xs text-slate-300 mt-3 font-medium leading-relaxed" id="card-quiz-score-message">
-                                Bom treino! Siga afiando sua mente.
-                            </p>
-                        </div>
 
-                        <button onclick="startCardQuiz()" class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-[#0b0f19] px-6 py-3 rounded-xl text-xs font-extrabold transition-all shadow-lg">
-                            <i class="fa-solid fa-rotate-left"></i> Iniciar Novo Teste
-                        </button>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div id="corner-half-a-box" class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-[10px] font-bold text-slate-500 uppercase">Fração da Aposta A</span>
+                                            <span id="corner-half-a-badge" class="px-2 py-0.5 text-[10px] rounded font-bold uppercase">--</span>
+                                        </div>
+                                        <div class="text-sm font-bold text-white mb-1">Linha: <span id="corner-half-a-line" class="font-mono text-emerald-400">--</span></div>
+                                        <p id="corner-half-a-math" class="text-xs text-slate-400">--</p>
+                                    </div>
+                                </div>
+
+                                <div id="corner-half-b-box" class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-[10px] font-bold text-slate-500 uppercase">Fração da Aposta B</span>
+                                            <span id="corner-half-b-badge" class="px-2 py-0.5 text-[10px] rounded font-bold uppercase">--</span>
+                                        </div>
+                                        <div class="text-sm font-bold text-white mb-1">Linha: <span id="corner-half-b-line" class="font-mono text-emerald-400">--</span></div>
+                                        <p id="corner-half-b-math" class="text-xs text-slate-400">--</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3.4: QUIZ DE ESCANTEIOS -->
+            <div id="tab-corners-quiz" class="tab-content hidden space-y-6">
+                <div class="bg-gradient-to-br from-[#0c2419] to-[#0f172a] border border-emerald-500/20 rounded-2xl p-6 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 animate-pulse"><i class="fa-solid fa-flag"></i></div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">Quiz de Escanteios</h3>
+                                <p class="text-xs text-slate-400">Treine suas habilidades nas divisões asiáticas de escanteios</p>
+                            </div>
+                        </div>
+                        <div class="text-xs bg-slate-800 text-slate-300 font-bold font-mono px-3 py-1.5 rounded-lg border border-slate-700">Questão <span id="corner-quiz-progress-text" class="text-emerald-400">1</span> de 5</div>
                     </div>
 
+                    <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mb-6"><div id="corner-quiz-progress-bar" class="h-full bg-emerald-400 transition-all duration-300" style="width: 20%;"></div></div>
+
+                    <div id="corner-quiz-active-panel" class="space-y-6">
+                        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5"><h4 id="corner-quiz-question-text" class="text-sm sm:text-base font-bold text-white leading-relaxed">Gerando questão de escanteios...</h4></div>
+                        <div class="grid grid-cols-2 gap-3" id="corner-quiz-options-container"></div>
+                        <div id="corner-quiz-feedback-box" class="hidden rounded-xl p-4 border transition-all">
+                            <div class="flex items-start gap-3">
+                                <div id="corner-quiz-feedback-icon" class="text-lg mt-0.5"></div>
+                                <div>
+                                    <h5 id="corner-quiz-feedback-title" class="text-xs font-bold uppercase tracking-wider">Resultado</h5>
+                                    <p id="corner-quiz-feedback-explanation" class="text-xs text-slate-300 mt-1 leading-relaxed"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end"><button onclick="nextCornerQuizQuestion()" id="corner-quiz-btn-action" disabled class="px-5 py-2.5 bg-slate-800 text-slate-500 font-bold text-xs rounded-lg border border-slate-700 transition-all cursor-not-allowed">Selecione uma resposta</button></div>
+                    </div>
+
+                    <div id="corner-quiz-score-panel" class="hidden text-center py-8 space-y-6">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-4xl mb-2 animate-bounce"><i class="fa-solid fa-trophy"></i></div>
+                        <div>
+                            <h4 class="text-xl font-extrabold text-white">Quiz de Cantos Concluído!</h4>
+                        </div>
+                        <div class="max-w-xs mx-auto bg-slate-900/80 border border-slate-800 rounded-xl p-5">
+                            <div class="text-3xl font-black text-emerald-400 font-mono" id="corner-quiz-score-display">0 / 5</div>
+                            <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mt-1">Pontuação Final</p>
+                            <p class="text-xs text-slate-300 mt-3 font-medium leading-relaxed" id="corner-quiz-score-message"></p>
+                        </div>
+                        <button onclick="startCornerQuiz()" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-[#0b0f19] px-6 py-3 rounded-xl text-xs font-extrabold transition-all shadow-lg">Iniciar Novo Teste</button>
+                    </div>
                 </div>
             </div>
 
@@ -1108,7 +1244,7 @@
         </div>
     </footer>
 
-    <!-- LOGICA SCRIPT DO PROJETO COMPLETO -->
+    <!-- LÓGICA E SCRIPT DO HUB COMPLETO -->
     <script>
         // CORE STATE
         let activeModule = 'handicap';
@@ -1121,12 +1257,19 @@
             away: { yellow: 0, red: 0, double: 0 }
         };
 
+        // CORNERS STATE
+        let currentCornersState = { home: 5, away: 4 };
+        let currentCornersType = 'over'; // over / under
+
         // HANDICAPS POOL (FOR GENERATING RANDOM HANDICAP QUIZZES)
         const HANDICAPS_POOL = [
             -3.75, -3.5, -3.25, -3.0, -2.75, -2.5, -2.25, -2.0, -1.75, -1.5, -1.25, -1.0, -0.75, -0.5, -0.25,
             0.0,
             0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75
         ];
+
+        // CORNERS POOL
+        const CORNERS_POOL = [7.5, 7.75, 8.0, 8.25, 8.5, 8.75, 9.0, 9.25, 9.5, 9.75, 10.0, 10.25, 10.5, 10.75, 11.0];
 
         // QUIZZES IN-MEMORY STATE
         let quizQuestions = [];
@@ -1139,48 +1282,75 @@
         let cardQuizScore = 0;
         let cardQuizAnswered = false;
 
+        let cornerQuizQuestions = [];
+        let cornerQuizCurrentIndex = 0;
+        let cornerQuizScore = 0;
+        let cornerQuizAnswered = false;
+
         // SWITCH BETWEEN MAIN MODULES (PAGES)
         function switchModule(moduleName) {
             activeModule = moduleName;
             
             const btnHandicap = document.getElementById('btn-module-handicap');
             const btnBookings = document.getElementById('btn-module-bookings');
+            const btnCorners = document.getElementById('btn-module-corners');
 
             const sidebarHandicap = document.getElementById('sidebar-handicap');
             const sidebarBookings = document.getElementById('sidebar-bookings');
+            const sidebarCorners = document.getElementById('sidebar-corners');
 
             const goldRuleIcon = document.getElementById('gold-rule-icon');
             const goldRuleTitle = document.getElementById('gold-rule-title');
             const goldRuleDesc = document.getElementById('gold-rule-desc');
 
-            if (moduleName === 'handicap') {
-                btnHandicap.className = "flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-all active-module";
-                btnBookings.className = "flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-all text-slate-400 hover:text-white";
-                
-                sidebarHandicap.classList.remove('hidden');
-                sidebarBookings.classList.add('hidden');
+            // Reset buttons classes
+            btnHandicap.className = "flex-1 xl:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-white";
+            btnBookings.className = "flex-1 xl:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-white";
+            btnCorners.className = "flex-1 xl:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-white";
 
-                // Update gold rule content
+            sidebarHandicap.classList.add('hidden');
+            sidebarBookings.classList.add('hidden');
+            sidebarCorners.classList.add('hidden');
+
+            if (moduleName === 'handicap') {
+                btnHandicap.classList.add('active-module-handicap');
+                btnHandicap.classList.remove('text-slate-400');
+                sidebarHandicap.classList.remove('hidden');
+
+                document.documentElement.style.setProperty('--tab-color', '#00C0FF');
+
                 goldRuleIcon.className = "bg-brand-cyan/10 p-2 rounded-lg text-brand-cyan mt-0.5 shrink-0";
                 goldRuleIcon.innerHTML = '<i class="fa-solid fa-lightbulb"></i>';
                 goldRuleTitle.innerText = "Regra de Ouro";
                 goldRuleDesc.innerHTML = "As linhas inteiras (ex: <span class='text-brand-cyan font-mono font-bold'>-1.0, +2.0, 0.0</span>) nunca dividem seu dinheiro. Elas dão reembolso total se o saldo de gols empatar com a linha estipulada.";
 
                 switchTab('tab-instrucoes');
-            } else {
-                btnBookings.className = "flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-all active-module";
-                btnHandicap.className = "flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-sm font-bold transition-all text-slate-400 hover:text-white";
-                
-                sidebarHandicap.classList.add('hidden');
+            } else if (moduleName === 'bookings') {
+                btnBookings.classList.add('active-module-bookings');
+                btnBookings.classList.remove('text-slate-400');
                 sidebarBookings.classList.remove('hidden');
 
-                // Update gold rule content
+                document.documentElement.style.setProperty('--tab-color', '#f59e0b');
+
                 goldRuleIcon.className = "bg-amber-500/10 p-2 rounded-lg text-amber-500 mt-0.5 shrink-0";
                 goldRuleIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
                 goldRuleTitle.innerText = "Lembrete de Cartões";
                 goldRuleDesc.innerHTML = "Cada Amarelo soma <strong class='text-amber-500'>10 pts</strong>, Vermelho Direto soma <strong class='text-rose-400'>25 pts</strong> e Expulsão por Duplo Amarelo computa <strong class='text-red-500'>35 pts</strong> totais do jogador.";
 
                 switchTab('tab-bookings-regras');
+            } else if (moduleName === 'corners') {
+                btnCorners.classList.add('active-module-corners');
+                btnCorners.classList.remove('text-slate-400');
+                sidebarCorners.classList.remove('hidden');
+
+                document.documentElement.style.setProperty('--tab-color', '#10b981');
+
+                goldRuleIcon.className = "bg-emerald-500/10 p-2 rounded-lg text-emerald-400 mt-0.5 shrink-0";
+                goldRuleIcon.innerHTML = '<i class="fa-solid fa-flag"></i>';
+                goldRuleTitle.innerText = "Regra dos Cantos";
+                goldRuleDesc.innerHTML = "Apenas escanteios cobrados são válidos para liquidação. Escanteios sinalizados que não foram cobrados antes do apito final são desconsiderados.";
+
+                switchTab('tab-corners-regras');
             }
         }
 
@@ -1194,7 +1364,6 @@
             const buttons = document.querySelectorAll('aside button');
             buttons.forEach(btn => btn.classList.remove('active-tab'));
 
-            // Highlight side nav button
             const activeBtn = document.getElementById(`btn-${tabId}`);
             if (activeBtn) activeBtn.classList.add('active-tab');
 
@@ -1206,6 +1375,10 @@
                 runCardsSimulation();
             } else if (tabId === 'tab-bookings-quiz') {
                 startCardQuiz();
+            } else if (tabId === 'tab-corners-simulador') {
+                runCornersSimulation();
+            } else if (tabId === 'tab-corners-quiz') {
+                startCornerQuiz();
             }
         }
 
@@ -1306,13 +1479,13 @@
                         const h2 = correctHcp + 0.25;
                         const s1 = h1 >= 0 ? '+' : '';
                         const s2 = h2 >= 0 ? '+' : '';
-                        explanationText = `A resposta certa é ${sign}${correctHcp.toFixed(2)}. Esse handicap divide sua operação ao meio: metade em ${s1}${h1.toFixed(2)} e metade em ${s2}${h2.toFixed(2)}. No placar de ${score.h}x${score.a} apostando no ${teamLabel}, a combinação matemática resulta em "${targetResult}".`;
+                        explanationText = `A resposta certa é ${sign}${correctHcp.toFixed(2)}. Esse handicap divide sua operação ao meio: metade em ${s1}${h1.toFixed(2)} e metade em ${s2}${h2.toFixed(2)}. No placar de ${score.h}x${score.a} apostando no ${teamLabel}, a combinação resulta em "${targetResult}".`;
                     } else {
-                        explanationText = `A resposta certa é ${sign}${correctHcp.toFixed(2)}. Sendo uma linha inteira/simples, ela não se divide. Ajustando o saldo de gols no placar de ${score.h}x${score.a}, o resultado consolidado é "${targetResult}".`;
+                        explanationText = `A resposta certa é ${sign}${correctHcp.toFixed(2)}. Sendo uma linha simples, ela não se divide. O resultado é "${targetResult}".`;
                     }
 
                     return {
-                        questionText: `O placar terminou em **${score.h} x ${score.a}**. Você operou no time do **${teamLabel}**. Qual handicap você deveria ter escolhido para que o fechamento final resultasse em **"${targetResult}"**?`,
+                        questionText: `O placar terminou em **${score.h} x ${score.a}**. Você operou no time do **${teamLabel}**. Qual handicap você deveria ter escolhido para que o fechamento resultasse em **"${targetResult}"**?`,
                         correctString: `${correctHcp >= 0 ? '+' : ''}${correctHcp.toFixed(2)}`,
                         explanation: explanationText,
                         alternatives: options.map(o => `${o >= 0 ? '+' : ''}${o.toFixed(2)}`)
@@ -1430,11 +1603,11 @@
 
                 const messageEl = document.getElementById('quiz-score-message');
                 if (quizScore === 5) {
-                    messageEl.innerText = "🥇 Fantástico! Você tem aproveitamento de 100%. Sua capacidade analítica em handicaps asiáticos está de nível profissional!";
+                    messageEl.innerText = "🥇 Fantástico! Você atingiu nível profissional em Handicaps Asiáticos!";
                 } else if (quizScore >= 3) {
-                    messageEl.innerText = "🟢 Muito bom! Seu aproveitamento é excelente. Com apenas mais alguns treinos, você vai dominar todas as variáveis.";
+                    messageEl.innerText = "🟢 Excelente! Você tem uma compreensão muito sólida dos desdobramentos.";
                 } else {
-                    messageEl.innerText = "📚 Bom treino! Recomendamos usar mais a calculadora e o simulador interativo para alinhar os desmembramentos das meias-linhas.";
+                    messageEl.innerText = "📚 Bom treino. Continue utilizando o simulador para memorizar os fatiamentos.";
                 }
             } else {
                 quizCurrentIndex++;
@@ -1450,7 +1623,6 @@
 
         function selectBetTeam(team) {
             currentBetTeam = team;
-            
             const btnHome = document.getElementById('btn-bet-home');
             const btnAway = document.getElementById('btn-bet-away');
 
@@ -1500,19 +1672,19 @@
                 if (difference > 0) {
                     return { 
                         status: 'GANHO', 
-                        text: `Placar Ajustado: ${adjustedHome.toFixed(2)} x ${adjustedAway.toFixed(2)}. Vitória da sua aposta!`, 
+                        text: `Placar Ajustado: ${adjustedHome.toFixed(2)} x ${adjustedAway.toFixed(2)}. Vitória!`, 
                         class: 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20' 
                     };
                 } else if (difference < 0) {
                     return { 
                         status: 'PERDA', 
-                        text: `Placar Ajustado: ${adjustedHome.toFixed(2)} x ${adjustedAway.toFixed(2)}. Derrota da sua aposta!`, 
+                        text: `Placar Ajustado: ${adjustedHome.toFixed(2)} x ${adjustedAway.toFixed(2)}. Derrota!`, 
                         class: 'bg-rose-500/15 text-rose-400 border border-rose-500/20' 
                     };
                 } else {
                     return { 
                         status: 'DEVOLVIDA', 
-                        text: `Placar Ajustado: ${adjustedHome.toFixed(2)} x ${adjustedAway.toFixed(2)}. Empate exato com a desvantagem!`, 
+                        text: `Placar Ajustado: ${adjustedHome.toFixed(2)} x ${adjustedAway.toFixed(2)}. Empate exato! Reembolso.`, 
                         class: 'bg-blue-500/15 text-blue-400 border border-blue-500/20' 
                     };
                 }
@@ -1546,33 +1718,33 @@
                     verdictColorClass = 'text-emerald-400';
                 } else if ((statusA === 'GANHO' && statusB === 'DEVOLVIDA') || (statusA === 'DEVOLVIDA' && statusB === 'GANHO')) {
                     finalResult = 'MEIO GANHO 🟢';
-                    finalDesc = 'Uma metade foi ganha e a outra devolvida. Você lucra metade do valor da Odd máxima e tem a outra metade reembolsada.';
+                    finalDesc = 'Uma metade foi ganha e a outra devolvida. Você lucra metade do valor da Odd e tem o resto reembolsado.';
                     verdictColorClass = 'text-brand-cyan';
                 } else if (statusA === 'DEVOLVIDA' && statusB === 'DEVOLVIDA') {
                     finalResult = 'DEVOLUÇÃO TOTAL 🔄';
-                    finalDesc = 'Ambas as partes resultaram em reembolso. O valor apostado retorna 100% para sua conta.';
+                    finalDesc = 'Ambas as partes resultaram em reembolso. Retorno integral da entrada.';
                     verdictColorClass = 'text-blue-400';
                 } else if ((statusA === 'DEVOLVIDA' && statusB === 'PERDA') || (statusA === 'PERDA' && statusB === 'DEVOLVIDA')) {
                     finalResult = 'MEIA PERDA 🟡';
-                    finalDesc = 'Uma metade foi devolvida (reembolso) e a outra perdida. Você perde apenas 50% do valor investido.';
+                    finalDesc = 'Metade reembolsada e metade perdida. Perda de apenas 50% do capital investido.';
                     verdictColorClass = 'text-amber-500';
                 } else if (statusA === 'PERDA' && statusB === 'PERDA') {
                     finalResult = 'PERDA TOTAL ❌';
-                    finalDesc = 'Ambas as metades foram liquidadas como perdedoras. Você perde 100% do valor da aposta.';
+                    finalDesc = 'Sua entrada foi totalmente perdida.';
                     verdictColorClass = 'text-rose-400';
                 }
             } else {
                 if (statusA === 'GANHO') {
                     finalResult = 'GANHO TOTAL 🏆';
-                    finalDesc = 'Sua aposta foi totalmente vitoriosa! Recebe o lucro integral.';
+                    finalDesc = 'Sua aposta foi totalmente vitoriosa! Lucro integral.';
                     verdictColorClass = 'text-emerald-400';
                 } else if (statusA === 'PERDA') {
                     finalResult = 'PERDA TOTAL ❌';
-                    finalDesc = 'Sua aposta perdeu. O investimento total foi retido pela casa.';
+                    finalDesc = 'Sua aposta perdeu. O investimento total foi retido.';
                     verdictColorClass = 'text-rose-400';
                 } else {
                     finalResult = 'DEVOLUÇÃO 🔄';
-                    finalDesc = 'Empate com o handicap. Você recebe 100% do seu dinheiro de volta na conta.';
+                    finalDesc = 'Empate com o handicap. Recebimento de 100% do valor de volta.';
                     verdictColorClass = 'text-blue-400';
                 }
             }
@@ -1659,34 +1831,30 @@
                 awayTeam = teamNames[Math.floor(Math.random() * teamNames.length)];
             }
 
-            // Generate random card stats
-            const homeYellow = Math.floor(Math.random() * 4); // 0-3
-            const homeRed = Math.floor(Math.random() * 2);    // 0-1
-            const homeDouble = Math.floor(Math.random() * 2); // 0-1
+            const homeYellow = Math.floor(Math.random() * 4);
+            const homeRed = Math.floor(Math.random() * 2);
+            const homeDouble = Math.floor(Math.random() * 2);
 
-            const awayYellow = Math.floor(Math.random() * 4); // 0-3
-            const awayRed = Math.floor(Math.random() * 2);    // 0-1
-            const awayDouble = Math.floor(Math.random() * 2); // 0-1
+            const awayYellow = Math.floor(Math.random() * 4);
+            const awayRed = Math.floor(Math.random() * 2);
+            const awayDouble = Math.floor(Math.random() * 2);
 
             const homePoints = (homeYellow * 10) + (homeRed * 25) + (homeDouble * 35);
             const awayPoints = (awayYellow * 10) + (awayRed * 25) + (awayDouble * 35);
             const totalPoints = homePoints + awayPoints;
 
-            // Decide question style
             const questionType = Math.random() > 0.5 ? 'total_calc' : 'market_determination';
 
             if (questionType === 'total_calc') {
-                const questionText = `Durante um jogo entre **${homeTeam}** e **${awayTeam}**, foram computados os seguintes cartões:<br><br>` +
-                    `• **${homeTeam}**: ${homeYellow} Amarelos, ${homeRed} Vermelhos diretos e ${homeDouble} Expulsões por duplo amarelo.<br>` +
-                    `• **${awayTeam}**: ${awayYellow} Amarelos, ${awayRed} Vermelhos diretos e ${awayDouble} Expulsões por duplo amarelo.<br><br>` +
-                    `Qual o **Total de Booking Points** acumulado na partida de forma consolidada?`;
+                const questionText = `Durante um clássico entre **${homeTeam}** e **${awayTeam}**, o juiz aplicou os seguintes cartões:<br><br>` +
+                    `• **${homeTeam}**: ${homeYellow} Amarelos, ${homeRed} Vermelhos diretos e ${homeDouble} Segundos Amarelos com expulsão.<br>` +
+                    `• **${awayTeam}**: ${awayYellow} Amarelos, ${awayRed} Vermelhos diretos e ${awayDouble} Segundos Amarelos com expulsão.<br><br>` +
+                    `Qual o **Total de Booking Points** acumulado nesta partida?`;
 
                 const correctAns = `${totalPoints} pontos`;
-                
-                // Distractors
                 let distractors = new Set();
                 while(distractors.size < 3) {
-                    let offset = (Math.floor(Math.random() * 5) - 2) * 5; // offset by multiples of 5 or 10
+                    let offset = (Math.floor(Math.random() * 5) - 2) * 5;
                     if (offset === 0) offset = 15;
                     let possibleVal = totalPoints + offset;
                     if (possibleVal >= 0 && possibleVal !== totalPoints) {
@@ -1695,10 +1863,7 @@
                 }
 
                 const options = [correctAns, ...Array.from(distractors)].sort(() => Math.random() - 0.5);
-
-                const explanation = `Mandante: (${homeYellow}x10) + (${homeRed}x25) + (${homeDouble}x35) = ${homePoints} pontos. ` +
-                    `Visitante: (${awayYellow}x10) + (${awayRed}x25) + (${awayDouble}x35) = ${awayPoints} pontos. ` +
-                    `Somando ambos, o resultado correto é ${totalPoints} pontos.`;
+                const explanation = `Mandante: (${homeYellow}x10) + (${homeRed}x25) + (${homeDouble}x35) = ${homePoints} pts. Visitante: (${awayYellow}x10) + (${awayRed}x25) + (${awayDouble}x35) = ${awayPoints} pts. Somando ambos, o resultado correto é ${totalPoints} pontos.`;
 
                 return {
                     questionText: questionText,
@@ -1707,26 +1872,22 @@
                     alternatives: options
                 };
             } else {
-                // Market determination question
                 const lines = [24.5, 34.5, 35.5, 45.5];
                 const selectedLine = lines[Math.floor(Math.random() * lines.length)];
                 const isOver = Math.random() > 0.5;
                 const marketText = isOver ? `Mais de ${selectedLine}` : `Menos de ${selectedLine}`;
 
-                const questionText = `Durante o jogo, as equipes receberam:<br>` +
-                    `• **${homeTeam}**: ${homeYellow} Amarelos, ${homeRed} Vermelhos diretos e ${homeDouble} Duplo amarelos.<br>` +
-                    `• **${awayTeam}**: ${awayYellow} Amarelos, ${awayRed} Vermelhos diretos e ${awayDouble} Duplo amarelos.<br><br>` +
-                    `Sua operação foi no mercado: **"${marketText} pontos de cartões"**. Qual foi o resultado final da aposta?`;
+                const questionText = `No jogo, as equipes acumularam:<br>` +
+                    `• **${homeTeam}**: ${homeYellow} Amarelos, ${homeRed} Vermelhos e ${homeDouble} Duplos Amarelos.<br>` +
+                    `• **${awayTeam}**: ${awayYellow} Amarelos, ${awayRed} Vermelhos e ${awayDouble} Duplos Amarelos.<br><br>` +
+                    `Se sua aposta foi na linha **"${marketText} pontos de cartões"**, qual o fechamento final?`;
 
-                const pointsSum = totalPoints;
-                const wins = isOver ? (pointsSum > selectedLine) : (pointsSum < selectedLine);
+                const wins = isOver ? (totalPoints > selectedLine) : (totalPoints < selectedLine);
                 const correctAns = wins ? "Venceu a Aposta (Ganhou)" : "Perdeu a Aposta (Perdeu)";
                 const wrongAns = wins ? "Perdeu a Aposta (Perdeu)" : "Venceu a Aposta (Ganhou)";
 
                 const options = [correctAns, wrongAns];
-
-                const explanation = `A soma total de cartões deu ${totalPoints} pontos. Comparando com a linha "${marketText}", ` +
-                    `o resultado é de fato que você ${wins ? 'Ganhou (pois ' + totalPoints + ' atende ao critério de ' + marketText + ')' : 'Perdeu (pois ' + totalPoints + ' não atende ao critério de ' + marketText + ')'}.`;
+                const explanation = `A pontuação total fechou em ${totalPoints}. Comparando com a linha "${marketText}", o resultado final é que você ${wins ? 'Ganhou (pois ' + totalPoints + ' é compatível com a linha)' : 'Perdeu (pois ' + totalPoints + ' não atende ao critério da linha)'}.`;
 
                 return {
                     questionText: questionText,
@@ -1761,8 +1922,6 @@
             document.getElementById('card-quiz-progress-text').innerText = cardQuizCurrentIndex + 1;
 
             const currentQ = cardQuizQuestions[cardQuizCurrentIndex];
-            
-            // Format markdown headers if present
             let formattedQuestion = currentQ.questionText.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-black">$1</strong>');
             document.getElementById('card-quiz-question-text').innerHTML = formattedQuestion;
 
@@ -1848,11 +2007,11 @@
 
                 const messageEl = document.getElementById('card-quiz-score-message');
                 if (cardQuizScore === 5) {
-                    messageEl.innerText = "🥇 Incrível! Você gabaritou a soma dos cartões. Tem ótimo domínio matemático sobre os Booking Points!";
+                    messageEl.innerText = "🥇 Perfeito! Você tem um domínio impressionante sobre a pontuação de cartões!";
                 } else if (cardQuizScore >= 3) {
-                    messageEl.innerText = "🟢 Muito bom! Sua soma de pontos de punição é muito ágil e precisa.";
+                    messageEl.innerText = "🟢 Ótimo trabalho! A sua capacidade de liquidação rápida de cartões é excelente.";
                 } else {
-                    messageEl.innerText = "📚 Pratique um pouco mais no simulador de cartões para fixar bem a soma ponderada de cada infração.";
+                    messageEl.innerText = "📚 Bom treino. Memorizar pesos de amarelo (10), vermelho (25) e duplo (35) vai te ajudar.";
                 }
             } else {
                 cardQuizCurrentIndex++;
@@ -1860,10 +2019,330 @@
             }
         }
 
+
+        // ================= MOTOR DE SIMULAÇÃO DE ESCANTEIOS (CORNERS) =================
+        function changeCornersCount(team, val) {
+            currentCornersState[team] = Math.max(0, currentCornersState[team] + val);
+            document.getElementById(`corners-${team}`).innerText = currentCornersState[team];
+            runCornersSimulation();
+        }
+
+        function selectCornersType(type) {
+            currentCornersType = type;
+            const btnOver = document.getElementById('btn-corners-over');
+            const btnUnder = document.getElementById('btn-corners-under');
+
+            if (type === 'over') {
+                btnOver.className = "px-3 py-2 rounded-lg text-xs font-bold border transition-all bg-[#10b981]/10 border-[#10b981] text-[#10b981]";
+                btnUnder.className = "px-3 py-2 rounded-lg text-xs font-bold border border-slate-800 bg-[#0b0f19] text-slate-400 hover:bg-slate-800/50";
+            } else {
+                btnUnder.className = "px-3 py-2 rounded-lg text-xs font-bold border transition-all bg-[#10b981]/10 border-[#10b981] text-[#10b981]";
+                btnOver.className = "px-3 py-2 rounded-lg text-xs font-bold border border-slate-800 bg-[#0b0f19] text-slate-400 hover:bg-slate-800/50";
+            }
+            runCornersSimulation();
+        }
+
+        function runCornersSimulation() {
+            const lineVal = parseFloat(document.getElementById('sim-corners-line').value);
+            const cornersHome = currentCornersState.home;
+            const cornersAway = currentCornersState.away;
+            const totalCorners = cornersHome + cornersAway;
+
+            document.getElementById('total-corners-sum').innerText = totalCorners;
+
+            // Determine splitting
+            let isSplit = !Number.isInteger(lineVal * 2);
+            let subLineA, subLineB;
+
+            if (isSplit) {
+                subLineA = lineVal - 0.25;
+                subLineB = lineVal + 0.25;
+                document.getElementById('corner-half-b-box').style.display = 'flex';
+            } else {
+                subLineA = lineVal;
+                subLineB = lineVal;
+                document.getElementById('corner-half-b-box').style.display = 'none';
+            }
+
+            function evaluateSingleCornerLine(line, totalC, type) {
+                if (type === 'over') {
+                    if (totalC > line) return 'GANHO';
+                    if (totalC < line) return 'PERDA';
+                    return 'DEVOLVIDA';
+                } else {
+                    if (totalC < line) return 'GANHO';
+                    if (totalC > line) return 'PERDA';
+                    return 'DEVOLVIDA';
+                }
+            }
+
+            const verdictA = evaluateSingleCornerLine(subLineA, totalCorners, currentCornersType);
+            const verdictB = evaluateSingleCornerLine(subLineB, totalCorners, currentCornersType);
+
+            // Print fractional lines
+            document.getElementById('corner-half-a-line').innerText = (currentCornersType === 'over' ? 'Over ' : 'Under ') + subLineA.toFixed(2);
+            document.getElementById('corner-half-b-line').innerText = (currentCornersType === 'over' ? 'Over ' : 'Under ') + subLineB.toFixed(2);
+
+            // Badges classes
+            const getBadgeClass = (status) => {
+                if (status === 'GANHO') return 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20';
+                if (status === 'PERDA') return 'bg-rose-500/15 text-rose-400 border border-rose-500/20';
+                return 'bg-blue-500/15 text-blue-400 border border-blue-500/20';
+            };
+
+            document.getElementById('corner-half-a-badge').innerText = verdictA;
+            document.getElementById('corner-half-a-badge').className = `px-2 py-0.5 text-[10px] rounded font-bold uppercase ${getBadgeClass(verdictA)}`;
+            document.getElementById('corner-half-a-math').innerText = `Total cobrado (${totalCorners}) ${currentCornersType === 'over' ? '>' : '<'} Linha (${subLineA.toFixed(2)}) $\\rightarrow$ ${verdictA}`;
+
+            document.getElementById('corner-half-b-badge').innerText = verdictB;
+            document.getElementById('corner-half-b-badge').className = `px-2 py-0.5 text-[10px] rounded font-bold uppercase ${getBadgeClass(verdictB)}`;
+            document.getElementById('corner-half-b-math').innerText = `Total cobrado (${totalCorners}) ${currentCornersType === 'over' ? '>' : '<'} Linha (${subLineB.toFixed(2)}) $\\rightarrow$ ${verdictB}`;
+
+            // Consolidated verdict
+            let consVerdict = '';
+            let consDesc = '';
+            let colorCls = '';
+
+            if (isSplit) {
+                if (verdictA === 'GANHO' && verdictB === 'GANHO') {
+                    consVerdict = 'GANHO TOTAL 🏆';
+                    consDesc = 'Ambas as metades da sua operação venceram. Retorno financeiro de 100% dos lucros.';
+                    colorCls = 'text-emerald-400';
+                } else if ((verdictA === 'GANHO' && verdictB === 'DEVOLVIDA') || (verdictA === 'DEVOLVIDA' && verdictB === 'GANHO')) {
+                    consVerdict = 'MEIO GANHO 🟢';
+                    consDesc = 'Uma fração venceu e a outra foi reembolsada. Você recebe metade dos lucros e o restante de volta.';
+                    colorCls = 'text-emerald-300';
+                } else if (verdictA === 'DEVOLVIDA' && verdictB === 'DEVOLVIDA') {
+                    consVerdict = 'DEVOLUÇÃO TOTAL 🔄';
+                    consDesc = 'Ambas as frações de aposta empataram com a linha. Retorno integral da sua entrada.';
+                    colorCls = 'text-blue-400';
+                } else if ((verdictA === 'DEVOLVIDA' && verdictB === 'PERDA') || (verdictA === 'PERDA' && verdictB === 'DEVOLVIDA')) {
+                    consVerdict = 'MEIA PERDA 🟡';
+                    consDesc = 'Metade da sua aposta foi reembolsada e a outra metade foi retida. Você perde apenas 50% da entrada.';
+                    colorCls = 'text-amber-500';
+                } else {
+                    consVerdict = 'PERDA TOTAL ❌';
+                    consDesc = 'Ambas as partes da aposta foram liquidadas como perdedoras.';
+                    colorCls = 'text-rose-400';
+                }
+            } else {
+                if (verdictA === 'GANHO') {
+                    consVerdict = 'GANHO TOTAL 🏆';
+                    consDesc = 'Sua aposta venceu totalmente!';
+                    colorCls = 'text-emerald-400';
+                } else if (verdictA === 'PERDA') {
+                    consVerdict = 'PERDA TOTAL ❌';
+                    consDesc = 'Aposta perdida.';
+                    colorCls = 'text-rose-400';
+                } else {
+                    consVerdict = 'DEVOLUÇÃO 🔄';
+                    consDesc = 'Quantidade exata de escanteios. Dinheiro 100% reembolsado.';
+                    colorCls = 'text-blue-400';
+                }
+            }
+
+            const elText = document.getElementById('corners-verdict-text');
+            elText.innerText = consVerdict;
+            elText.className = `text-2xl font-black tracking-wide ${colorCls}`;
+            document.getElementById('corners-verdict-desc').innerText = consDesc;
+        }
+
+
+        // ================= MOTOR DE QUIZ DE ESCANTEIOS (CORNERS PROCEDURAL) =================
+        function generateProceduralCornerQuestion() {
+            const teamNames = ['Flamengo', 'Botafogo', 'Fluminense', 'Vasco', 'Palmeiras', 'Santos', 'São Paulo', 'Corinthians'];
+            const home = teamNames[Math.floor(Math.random() * teamNames.length)];
+            let away = teamNames[Math.floor(Math.random() * teamNames.length)];
+            while (away === home) away = teamNames[Math.floor(Math.random() * teamNames.length)];
+
+            // Random home & away corners cobrados
+            const cornersH = Math.floor(Math.random() * 8) + 2; // 2-9
+            const cornersA = Math.floor(Math.random() * 8) + 2; // 2-9
+            const total = cornersH + cornersA;
+
+            const targetLine = CORNERS_POOL[Math.floor(Math.random() * CORNERS_POOL.length)];
+            const type = Math.random() > 0.5 ? 'over' : 'under';
+
+            // Calculate exact math outcome
+            let isSplit = !Number.isInteger(targetLine * 2);
+            let subA = targetLine, subB = targetLine;
+            if (isSplit) {
+                subA = targetLine - 0.25;
+                subB = targetLine + 0.25;
+            }
+
+            function simpleEval(l, t, type) {
+                if (type === 'over') {
+                    if (t > l) return 'GANHO';
+                    if (t < l) return 'PERDA';
+                    return 'DEVOLVIDA';
+                } else {
+                    if (t < l) return 'GANHO';
+                    if (t > l) return 'PERDA';
+                    return 'DEVOLVIDA';
+                }
+            }
+
+            const rA = simpleEval(subA, total, type);
+            const rB = simpleEval(subB, total, type);
+
+            let correctVerdict = '';
+            if (isSplit) {
+                if (rA === 'GANHO' && rB === 'GANHO') correctVerdict = 'GANHO TOTAL';
+                else if ((rA === 'GANHO' && rB === 'DEVOLVIDA') || (rA === 'DEVOLVIDA' && rB === 'GANHO')) correctVerdict = 'MEIO GANHO';
+                else if (rA === 'DEVOLVIDA' && rB === 'DEVOLVIDA') correctVerdict = 'DEVOLUÇÃO';
+                else if ((rA === 'DEVOLVIDA' && rB === 'PERDA') || (rA === 'PERDA' && rB === 'DEVOLVIDA')) correctVerdict = 'MEIA PERDA';
+                else correctVerdict = 'PERDA TOTAL';
+            } else {
+                if (rA === 'GANHO') correctVerdict = 'GANHO TOTAL';
+                else if (rA === 'PERDA') correctVerdict = 'PERDA TOTAL';
+                else correctVerdict = 'DEVOLUÇÃO';
+            }
+
+            const questionText = `Um confronto acirrado entre **${home}** e **${away}** encerrou com:<br>` +
+                `• **${home}**: cobrou ${cornersH} escanteios.<br>` +
+                `• **${away}**: cobrou ${cornersA} escanteios.<br><br>` +
+                `Sua aposta foi no mercado **"${type === 'over' ? 'Mais de' : 'Menos de'} ${targetLine.toFixed(2)} escanteios"**. Qual o resultado da aposta?`;
+
+            const options = ['GANHO TOTAL', 'MEIO GANHO', 'DEVOLUÇÃO', 'MEIA PERDA', 'PERDA TOTAL'];
+            const explanation = `Total de cantos no jogo: ${cornersH} + ${cornersA} = ${total}. ` +
+                `Com a linha de ${type === 'over' ? 'Mais de' : 'Menos de'} ${targetLine.toFixed(2)} escanteios, ` +
+                `a partição matemática resulta em: **${correctVerdict}**.`;
+
+            return {
+                questionText: questionText,
+                correctString: correctVerdict,
+                explanation: explanation,
+                alternatives: options
+            };
+        }
+
+        function startCornerQuiz() {
+            cornerQuizScore = 0;
+            cornerQuizCurrentIndex = 0;
+            cornerQuizAnswered = false;
+            cornerQuizQuestions = [];
+
+            for (let i = 0; i < 5; i++) {
+                cornerQuizQuestions.push(generateProceduralCornerQuestion());
+            }
+
+            document.getElementById('corner-quiz-active-panel').classList.remove('hidden');
+            document.getElementById('corner-quiz-score-panel').classList.add('hidden');
+
+            loadCornerQuizQuestion();
+        }
+
+        function loadCornerQuizQuestion() {
+            cornerQuizAnswered = false;
+
+            const progress = ((cornerQuizCurrentIndex + 1) / cornerQuizQuestions.length) * 100;
+            document.getElementById('corner-quiz-progress-bar').style.width = `${progress}%`;
+            document.getElementById('corner-quiz-progress-text').innerText = cornerQuizCurrentIndex + 1;
+
+            const currentQ = cornerQuizQuestions[cornerQuizCurrentIndex];
+            let formattedQuestion = currentQ.questionText.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-black">$1</strong>');
+            document.getElementById('corner-quiz-question-text').innerHTML = formattedQuestion;
+
+            const container = document.getElementById('corner-quiz-options-container');
+            container.innerHTML = '';
+
+            const btnAction = document.getElementById('corner-quiz-btn-action');
+            btnAction.innerText = "Selecione uma resposta";
+            btnAction.disabled = true;
+            btnAction.className = "px-5 py-2.5 bg-slate-800 text-slate-500 font-bold text-xs rounded-lg border border-slate-700 transition-all cursor-not-allowed";
+
+            const feedbackBox = document.getElementById('corner-quiz-feedback-box');
+            feedbackBox.classList.add('hidden');
+
+            currentQ.alternatives.forEach((alt) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-center py-3.5 rounded-xl border border-slate-800 bg-slate-900/30 hover:bg-slate-800/40 hover:border-slate-700 text-slate-200 text-sm font-semibold transition-all shadow-sm";
+                btn.innerText = alt;
+                btn.onclick = () => selectCornerQuizAnswer(alt, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectCornerQuizAnswer(selectedStr, selectedBtn) {
+            if (cornerQuizAnswered) return;
+            cornerQuizAnswered = true;
+
+            const currentQ = cornerQuizQuestions[cornerQuizCurrentIndex];
+            const optionsContainer = document.getElementById('corner-quiz-options-container');
+            const optionButtons = optionsContainer.querySelectorAll('button');
+
+            const isCorrect = (selectedStr === currentQ.correctString);
+            if (isCorrect) cornerQuizScore++;
+
+            optionButtons.forEach((btn) => {
+                btn.disabled = true;
+                const btnText = btn.innerText;
+
+                if (btnText === currentQ.correctString) {
+                    btn.className = "w-full text-center py-3.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-sm font-bold transition-all shadow-md";
+                } else if (btnText === selectedStr && !isCorrect) {
+                    btn.className = "w-full text-center py-3.5 rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-400 text-sm font-bold transition-all shadow-md";
+                } else {
+                    btn.className = "w-full text-center py-3.5 rounded-xl border border-slate-900 bg-slate-950/20 text-slate-600 text-sm font-bold transition-all";
+                }
+            });
+
+            const feedbackBox = document.getElementById('corner-quiz-feedback-box');
+            const feedbackIcon = document.getElementById('corner-quiz-feedback-icon');
+            const feedbackTitle = document.getElementById('corner-quiz-feedback-title');
+            const feedbackExplanation = document.getElementById('corner-quiz-feedback-explanation');
+
+            feedbackBox.classList.remove('hidden');
+            feedbackExplanation.innerHTML = currentQ.explanation;
+
+            if (isCorrect) {
+                feedbackBox.className = "rounded-xl p-4 border bg-emerald-500/5 border-emerald-500/25 text-emerald-400 transition-all";
+                feedbackIcon.innerHTML = '<i class="fa-solid fa-circle-check text-xl"></i>';
+                feedbackTitle.innerText = "Fantástico! Análise corretíssima!";
+            } else {
+                feedbackBox.className = "rounded-xl p-4 border bg-rose-500/5 border-rose-500/25 text-rose-400 transition-all";
+                feedbackIcon.innerHTML = '<i class="fa-solid fa-circle-xmark text-xl"></i>';
+                feedbackTitle.innerText = "Resposta incorreta! Atente-se à divisão:";
+            }
+
+            const btnAction = document.getElementById('corner-quiz-btn-action');
+            btnAction.disabled = false;
+            btnAction.className = "px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-[#0b0f19] font-black text-xs rounded-lg transition-all shadow-md cursor-pointer";
+            
+            if (cornerQuizCurrentIndex === cornerQuizQuestions.length - 1) {
+                btnAction.innerText = "Ver Desempenho Final";
+            } else {
+                btnAction.innerText = "Próxima Questão";
+            }
+        }
+
+        function nextCornerQuizQuestion() {
+            if (cornerQuizCurrentIndex === cornerQuizQuestions.length - 1) {
+                document.getElementById('corner-quiz-active-panel').classList.add('hidden');
+                document.getElementById('corner-quiz-score-panel').classList.remove('hidden');
+
+                document.getElementById('corner-quiz-score-display').innerText = `${cornerQuizScore} / ${cornerQuizQuestions.length}`;
+
+                const messageEl = document.getElementById('corner-quiz-score-message');
+                if (cornerQuizScore === 5) {
+                    messageEl.innerText = "🥇 Excepcional! Você acertou todas as liquidações asiáticas de escanteios!";
+                } else if (cornerQuizScore >= 3) {
+                    messageEl.innerText = "🟢 Excelente resultado! Sua velocidade matemática em cantos de quartos (.25 e .75) é fantástica.";
+                } else {
+                    messageEl.innerText = "📚 Ótimo treino. Sugerimos testar mais cenários de quartos na calculadora para fixar a regra.";
+                }
+            } else {
+                cornerQuizCurrentIndex++;
+                loadCornerQuizQuestion();
+            }
+        }
+
         // INITIAL WINDOW LOAD TRIGGER
         window.onload = function() {
             runSimulation();
             runCardsSimulation();
+            runCornersSimulation();
         }
     </script>
 </body>
