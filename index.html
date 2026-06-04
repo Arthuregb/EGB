@@ -9,7 +9,7 @@
     <!-- Google Fonts (Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -115,8 +115,13 @@
                 </button>
 
                 <button onclick="switchTab('tab-simulador')" id="btn-tab-simulador" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left border border-dashed border-brand-cyan/20 bg-brand-cyan/5">
-                    <i class="fa-solid fa-calculator text-lg w-6 text-brand-cyan animate-pulse"></i>
+                    <i class="fa-solid fa-calculator text-lg w-6 text-brand-cyan"></i>
                     <span class="text-brand-cyan font-semibold">Simulador em Tempo Real</span>
+                </button>
+
+                <button onclick="switchTab('tab-quiz')" id="btn-tab-quiz" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-emerald-400 hover:bg-emerald-950/20 hover:text-emerald-300 transition-all text-left border border-emerald-500/10 bg-emerald-500/5">
+                    <i class="fa-solid fa-gamepad text-lg w-6 text-emerald-400 animate-pulse"></i>
+                    <span>Quiz de Treinamento</span>
                 </button>
             </div>
 
@@ -592,6 +597,91 @@
                 </div>
             </div>
 
+            <!-- TAB 6: QUIZ INTERATIVO COM PROCEDURAL DE 50+ CENÁRIOS -->
+            <div id="tab-quiz" class="tab-content hidden space-y-6">
+                <div class="bg-gradient-to-br from-slate-900 to-[#0c1e30] border border-slate-800 rounded-2xl p-6 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                    
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                                <i class="fa-solid fa-graduation-cap text-lg animate-pulse"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">Quiz de Treinamento Dinâmico</h3>
+                                <p class="text-xs text-slate-400">Acerte o handicap correto com base no placar e no objetivo estipulado</p>
+                            </div>
+                        </div>
+                        <div class="text-xs bg-slate-800 text-slate-300 font-bold font-mono px-3 py-1.5 rounded-lg border border-slate-700">
+                            Questão <span id="quiz-progress-text" class="text-emerald-400">1</span> de 5
+                        </div>
+                    </div>
+
+                    <!-- Progress bar -->
+                    <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mb-6">
+                        <div id="quiz-progress-bar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 20%;"></div>
+                    </div>
+
+                    <!-- Question & Options Panel -->
+                    <div id="quiz-active-panel" class="space-y-6">
+                        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
+                            <h4 id="quiz-question-text" class="text-sm sm:text-base font-bold text-white leading-relaxed">
+                                Gerando questão procedural a partir de +50 cenários...
+                            </h4>
+                        </div>
+
+                        <!-- Answer Options -->
+                        <div class="grid grid-cols-2 gap-3" id="quiz-options-container">
+                            <!-- Options injected dynamically by JS -->
+                        </div>
+
+                        <!-- Rationales Feedback Card -->
+                        <div id="quiz-feedback-box" class="hidden rounded-xl p-4 border transition-all">
+                            <div class="flex items-start gap-3">
+                                <div id="quiz-feedback-icon" class="text-lg mt-0.5"></div>
+                                <div>
+                                    <h5 id="quiz-feedback-title" class="text-xs font-bold uppercase tracking-wider">Resultado</h5>
+                                    <p id="quiz-feedback-explanation" class="text-xs text-slate-300 mt-1 leading-relaxed">Explicação detalhada...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Navigation Inside Quiz -->
+                        <div class="flex justify-end">
+                            <button onclick="nextQuizQuestion()" id="quiz-btn-action" disabled class="px-5 py-2.5 bg-slate-800 text-slate-500 font-bold text-xs rounded-lg border border-slate-700 transition-all cursor-not-allowed">
+                                Selecione uma resposta
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Scoreboard Panel (End of Quiz) -->
+                    <div id="quiz-score-panel" class="hidden text-center py-8 space-y-6">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-4xl mb-2">
+                            <i class="fa-solid fa-trophy animate-bounce"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-extrabold text-white">Treinamento Finalizado!</h4>
+                            <p class="text-xs text-slate-400 mt-1">Veja seu resultado no quiz de handicaps gerados aleatoriamente</p>
+                        </div>
+
+                        <div class="max-w-xs mx-auto bg-slate-900/80 border border-slate-800 rounded-xl p-5">
+                            <div class="text-3xl font-black text-emerald-400 font-mono" id="quiz-score-display">
+                                0 / 5
+                            </div>
+                            <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mt-1">Pontuação Final</p>
+                            <p class="text-xs text-slate-300 mt-3 font-medium leading-relaxed" id="quiz-score-message">
+                                Excelente! Você tem ótima base analítica.
+                            </p>
+                        </div>
+
+                        <button onclick="startQuiz()" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-[#0b0f19] px-6 py-3 rounded-xl text-xs font-extrabold transition-all shadow-lg">
+                            <i class="fa-solid fa-rotate-left"></i> Iniciar Novo Treinamento
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
         </section>
     </main>
 
@@ -610,6 +700,19 @@
             away: 2
         };
 
+        // LISTA DE HANDICAPS SUPORTADOS PELO MOTOR DO QUIZ
+        const HANDICAPS_POOL = [
+            -3.75, -3.5, -3.25, -3.0, -2.75, -2.5, -2.25, -2.0, -1.75, -1.5, -1.25, -1.0, -0.75, -0.5, -0.25,
+            0.0,
+            0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75
+        ];
+
+        // QUIZ INTERNAL STATE
+        let quizQuestions = [];
+        let quizCurrentIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
         function switchTab(tabId) {
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.classList.add('hidden'));
@@ -623,6 +726,257 @@
 
             if (tabId === 'tab-simulador') {
                 runSimulation();
+            } else if (tabId === 'tab-quiz') {
+                startQuiz();
+            }
+        }
+
+        // MOTOR MATEMÁTICO DO HANDICAP (USADO TANTO PARA O SIMULADOR QUANTO PARA O GERADOR DE QUESTÕES DO QUIZ)
+        function calculateSingleHalf(line, homeGoals, awayGoals, teamToBet) {
+            let adjustedHome, adjustedAway;
+            if (teamToBet === 'home') {
+                adjustedHome = homeGoals + line;
+                adjustedAway = awayGoals;
+            } else {
+                adjustedHome = homeGoals;
+                adjustedAway = awayGoals + line;
+            }
+
+            const diff = parseFloat((adjustedHome - adjustedAway).toFixed(4));
+            if (diff > 0) return 'GANHO';
+            if (diff < 0) return 'PERDA';
+            return 'DEVOLVIDA';
+        }
+
+        function getConsolidatedResult(hcp, homeGoals, awayGoals, teamToBet) {
+            const isAsiaticSplit = !Number.isInteger(hcp * 2);
+            let splitHalf1, splitHalf2;
+
+            if (isAsiaticSplit) {
+                splitHalf1 = hcp - 0.25;
+                splitHalf2 = hcp + 0.25;
+            } else {
+                splitHalf1 = hcp;
+                splitHalf2 = hcp;
+            }
+
+            const statusA = calculateSingleHalf(splitHalf1, homeGoals, awayGoals, teamToBet);
+            const statusB = calculateSingleHalf(splitHalf2, homeGoals, awayGoals, teamToBet);
+
+            if (isAsiaticSplit) {
+                if (statusA === 'GANHO' && statusB === 'GANHO') return 'GANHO TOTAL';
+                if ((statusA === 'GANHO' && statusB === 'DEVOLVIDA') || (statusA === 'DEVOLVIDA' && statusB === 'GANHO')) return 'MEIO GANHO';
+                if (statusA === 'DEVOLVIDA' && statusB === 'DEVOLVIDA') return 'DEVOLUÇÃO';
+                if ((statusA === 'DEVOLVIDA' && statusB === 'PERDA') || (statusA === 'PERDA' && statusB === 'DEVOLVIDA')) return 'MEIA PERDA';
+                if (statusA === 'PERDA' && statusB === 'PERDA') return 'PERDA TOTAL';
+            } else {
+                if (statusA === 'GANHO') return 'GANHO TOTAL';
+                if (statusA === 'PERDA') return 'PERDA TOTAL';
+                return 'DEVOLUÇÃO';
+            }
+            return 'DEVOLUÇÃO';
+        }
+
+        function generateProceduralQuestion() {
+            // Tentativa de gerar cenários balanceados de placares plausíveis
+            const scoresPool = [
+                {h: 0, a: 0}, {h: 1, a: 0}, {h: 0, a: 1}, {h: 2, a: 0}, 
+                {h: 0, a: 2}, {h: 2, a: 1}, {h: 1, a: 2}, {h: 3, a: 1}, 
+                {h: 1, a: 3}, {h: 3, a: 0}, {h: 0, a: 3}, {h: 2, a: 2},
+                {h: 3, a: 2}, {h: 2, a: 3}, {h: 1, a: 1}, {h: 4, a: 1}
+            ];
+
+            const targetsPool = ['GANHO TOTAL', 'MEIO GANHO', 'DEVOLUÇÃO', 'MEIA PERDA', 'PERDA TOTAL'];
+
+            for (let attempt = 0; attempt < 500; attempt++) {
+                const score = scoresPool[Math.floor(Math.random() * scoresPool.length)];
+                const teamToBet = Math.random() > 0.5 ? 'home' : 'away';
+                const teamLabel = teamToBet === 'home' ? 'Casa' : 'Visitante';
+                const targetResult = targetsPool[Math.floor(Math.random() * targetsPool.length)];
+
+                // Filtra handicaps que trazem exatamente o resultado estipulado
+                let correctHandicaps = [];
+                for (let h of HANDICAPS_POOL) {
+                    if (getConsolidatedResult(h, score.h, score.a, teamToBet) === targetResult) {
+                        correctHandicaps.push(h);
+                    }
+                }
+
+                // Se houver soluções para essa equação de handicap, criamos as alternativas
+                if (correctHandicaps.length > 0) {
+                    // Escolhe uma resposta correta (preferencialmente entre -2.0 e +2.0 para manter o quiz realista e acessível)
+                    let optimalCorrect = correctHandicaps.filter(h => Math.abs(h) <= 2.25);
+                    if (optimalCorrect.length === 0) optimalCorrect = correctHandicaps;
+                    const correctHcp = optimalCorrect[Math.floor(Math.random() * optimalCorrect.length)];
+
+                    // Encontra distratores (respostas erradas que resultam em algo diferente de targetResult)
+                    let distractors = [];
+                    const shuffledHcpPool = [...HANDICAPS_POOL].sort(() => Math.random() - 0.5);
+                    
+                    for (let h of shuffledHcpPool) {
+                        if (h === correctHcp) continue;
+                        // Garante que o handicap distrator não resulta no mesmo target
+                        if (getConsolidatedResult(h, score.h, score.a, teamToBet) !== targetResult) {
+                            distractors.push(h);
+                            if (distractors.length >= 3) break;
+                        }
+                    }
+
+                    if (distractors.length < 3) continue; // Precisa de pelo menos 3 distratores válidos
+
+                    // Monta as 4 alternativas finais
+                    const options = [correctHcp, ...distractors].sort(() => Math.random() - 0.5);
+
+                    // Cria o texto explicativo matemático
+                    const isSplit = !Number.isInteger(correctHcp * 2);
+                    const sign = correctHcp >= 0 ? '+' : '';
+                    let explanationText = "";
+
+                    if (isSplit) {
+                        const h1 = correctHcp - 0.25;
+                        const h2 = correctHcp + 0.25;
+                        const s1 = h1 >= 0 ? '+' : '';
+                        const s2 = h2 >= 0 ? '+' : '';
+                        
+                        explanationText = `A resposta certa é ${sign}${correctHcp.toFixed(2)}. Esse handicap asiático divide sua operação ao meio: metade em ${s1}${h1.toFixed(2)} e metade em ${s2}${h2.toFixed(2)}. No placar de ${score.h}x${score.a} apostando no ${teamLabel}, a combinação matemática resulta em exatamente "${targetResult}".`;
+                    } else {
+                        explanationText = `A resposta certa é ${sign}${correctHcp.toFixed(2)}. Como é uma linha inteira/simples, ela não se divide. Aplicando o ajuste de gols ao placar real de ${score.h}x${score.a}, o resultado é "${targetResult}".`;
+                    }
+
+                    return {
+                        questionText: `O placar final do jogo terminou em **${score.h} x ${score.a}**. Você fez uma operação no time do **${teamLabel}**. Qual handicap você deveria ter escolhido para que a sua liquidação financeira final resultasse exatamente em **"${targetResult}"**?`,
+                        correctString: `${correctHcp >= 0 ? '+' : ''}${correctHcp.toFixed(2)}`,
+                        explanation: explanationText,
+                        alternatives: options.map(o => `${o >= 0 ? '+' : ''}${o.toFixed(2)}`)
+                    };
+                }
+            }
+        }
+
+        function startQuiz() {
+            quizScore = 0;
+            quizCurrentIndex = 0;
+            quizAnswered = false;
+            quizQuestions = [];
+
+            // Gera 5 questões procedurais e totalmente únicas do banco de dados randômico
+            for (let i = 0; i < 5; i++) {
+                quizQuestions.push(generateProceduralQuestion());
+            }
+
+            document.getElementById('quiz-active-panel').classList.remove('hidden');
+            document.getElementById('quiz-score-panel').classList.add('hidden');
+
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            quizAnswered = false;
+
+            const progress = ((quizCurrentIndex + 1) / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${progress}%`;
+            document.getElementById('quiz-progress-text').innerText = quizCurrentIndex + 1;
+
+            const currentQ = quizQuestions[quizCurrentIndex];
+            
+            // Substitui formatação markdown por tags HTML para estilizar os termos
+            let formattedQuestion = currentQ.questionText
+                .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-black">$1</strong>');
+            
+            document.getElementById('quiz-question-text').innerHTML = formattedQuestion;
+
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = '';
+
+            const btnAction = document.getElementById('quiz-btn-action');
+            btnAction.innerText = "Selecione uma resposta";
+            btnAction.disabled = true;
+            btnAction.className = "px-5 py-2.5 bg-slate-800 text-slate-500 font-bold text-xs rounded-lg border border-slate-700 transition-all cursor-not-allowed";
+
+            const feedbackBox = document.getElementById('quiz-feedback-box');
+            feedbackBox.classList.add('hidden');
+
+            currentQ.alternatives.forEach((alt) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-center py-4 rounded-xl border border-slate-800 bg-slate-900/30 hover:bg-slate-800/40 hover:border-slate-700 text-slate-200 text-sm font-mono font-extrabold transition-all shadow-sm";
+                btn.innerText = alt;
+                btn.onclick = () => selectQuizAnswer(alt, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectQuizAnswer(selectedStr, selectedBtn) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const currentQ = quizQuestions[quizCurrentIndex];
+            const optionsContainer = document.getElementById('quiz-options-container');
+            const optionButtons = optionsContainer.querySelectorAll('button');
+
+            const isCorrect = (selectedStr === currentQ.correctString);
+            if (isCorrect) quizScore++;
+
+            optionButtons.forEach((btn) => {
+                btn.disabled = true;
+                const btnText = btn.innerText;
+
+                if (btnText === currentQ.correctString) {
+                    btn.className = "w-full text-center py-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-sm font-mono font-extrabold transition-all shadow-md";
+                } else if (btnText === selectedStr && !isCorrect) {
+                    btn.className = "w-full text-center py-4 rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-400 text-sm font-mono font-extrabold transition-all shadow-md";
+                } else {
+                    btn.className = "w-full text-center py-4 rounded-xl border border-slate-900 bg-slate-950/20 text-slate-600 text-sm font-mono font-extrabold transition-all";
+                }
+            });
+
+            // Apresentação visual da explicação teórica da resposta
+            const feedbackBox = document.getElementById('quiz-feedback-box');
+            const feedbackIcon = document.getElementById('quiz-feedback-icon');
+            const feedbackTitle = document.getElementById('quiz-feedback-title');
+            const feedbackExplanation = document.getElementById('quiz-feedback-explanation');
+
+            feedbackBox.classList.remove('hidden');
+            feedbackExplanation.innerText = currentQ.explanation;
+
+            if (isCorrect) {
+                feedbackBox.className = "rounded-xl p-4 border bg-emerald-500/5 border-emerald-500/25 text-emerald-400 transition-all";
+                feedbackIcon.innerHTML = '<i class="fa-solid fa-circle-check text-xl"></i>';
+                feedbackTitle.innerText = "Parabéns, resposta exata!";
+            } else {
+                feedbackBox.className = "rounded-xl p-4 border bg-rose-500/5 border-rose-500/25 text-rose-400 transition-all";
+                feedbackIcon.innerHTML = '<i class="fa-solid fa-circle-xmark text-xl"></i>';
+                feedbackTitle.innerText = "Resposta incorreta! Veja a explicação:";
+            }
+
+            const btnAction = document.getElementById('quiz-btn-action');
+            btnAction.disabled = false;
+            btnAction.className = "px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-[#0b0f19] font-black text-xs rounded-lg transition-all shadow-md cursor-pointer";
+            
+            if (quizCurrentIndex === quizQuestions.length - 1) {
+                btnAction.innerText = "Ver Desempenho Final";
+            } else {
+                btnAction.innerText = "Próxima Questão";
+            }
+        }
+
+        function nextQuizQuestion() {
+            if (quizCurrentIndex === quizQuestions.length - 1) {
+                document.getElementById('quiz-active-panel').classList.add('hidden');
+                document.getElementById('quiz-score-panel').classList.remove('hidden');
+
+                document.getElementById('quiz-score-display').innerText = `${quizScore} / ${quizQuestions.length}`;
+
+                const messageEl = document.getElementById('quiz-score-message');
+                if (quizScore === 5) {
+                    messageEl.innerText = "🥇 Fantástico! Você tem aproveitamento de 100%. Sua capacidade analítica em handicaps asiáticos está de nível profissional!";
+                } else if (quizScore >= 3) {
+                    messageEl.innerText = "🟢 Muito bom! Seu aproveitamento é excelente. Com apenas mais alguns treinos, você vai dominar todas as variáveis.";
+                } else {
+                    messageEl.innerText = "📚 Bom treino! Recomendamos usar mais a calculadora e o simulador interativo para alinhar os desmembramentos das meias-linhas.";
+                }
+            } else {
+                quizCurrentIndex++;
+                loadQuizQuestion();
             }
         }
 
@@ -654,24 +1008,17 @@
             const scoreAway = currentScores.away;
             
             const parsedVal = parseFloat(hcpSelect);
-            
-            // Formula mathematically checks if it's a .25 or .75 line (split line)
             let isAsiaticSplit = !Number.isInteger(parsedVal * 2); 
             let splitHalf1, splitHalf2;
 
             if (isAsiaticSplit) {
                 splitHalf1 = parsedVal - 0.25;
                 splitHalf2 = parsedVal + 0.25;
-                
-                // Unhide the second display card in case it was hidden from previous single-line simulation
                 document.getElementById('half-b-box').style.display = 'flex';
                 document.getElementById('half-a-title').innerText = "Metade da Aposta A";
             } else {
-                // If it is a whole or simple half line (e.g., 0, 0.5, 1.0, 1.5, 2.0...)
                 splitHalf1 = parsedVal;
                 splitHalf2 = parsedVal;
-                
-                // Hide second display card for clarity since there is no splitting
                 document.getElementById('half-b-box').style.display = 'none';
                 document.getElementById('half-a-title').innerText = "Análise da Linha";
             }
@@ -686,7 +1033,6 @@
                     adjustedAway = awayG + line;
                 }
 
-                // Prevent JS floating point errors (e.g. 1.25 + 1 = 2.2500000000000002)
                 const difference = parseFloat((adjustedHome - adjustedAway).toFixed(4));
 
                 if (difference > 0) {
@@ -713,7 +1059,6 @@
             const resA = evaluateHalf(splitHalf1, scoreHome, scoreAway, currentBetTeam);
             const resB = evaluateHalf(splitHalf2, scoreHome, scoreAway, currentBetTeam);
 
-            // Populate Info on UI for Half A & B
             document.getElementById('half-a-line').innerText = (splitHalf1 >= 0 ? '+' : '') + splitHalf1.toFixed(2);
             document.getElementById('half-b-line').innerText = (splitHalf2 >= 0 ? '+' : '') + splitHalf2.toFixed(2);
             
@@ -725,7 +1070,6 @@
             document.getElementById('half-b-badge').className = `px-2 py-0.5 text-[10px] rounded font-bold uppercase ${resB.class}`;
             document.getElementById('half-b-math').innerText = resB.text;
 
-            // Compute Consolidated Final Verdict
             let finalResult = '';
             let finalDesc = '';
             let verdictColorClass = '';
@@ -756,7 +1100,6 @@
                     verdictColorClass = 'text-rose-400';
                 }
             } else {
-                // Single line logic (for 0.0, 0.5, 1.0, 1.5, 2.0...)
                 if (statusA === 'GANHO') {
                     finalResult = 'GANHO TOTAL 🏆';
                     finalDesc = 'Sua aposta foi totalmente vitoriosa! Recebe o lucro integral.';
