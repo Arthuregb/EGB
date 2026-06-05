@@ -35,7 +35,8 @@
                             900: '#064b73',
                             950: '#042f4d',
                             cyan: '#00C0FF',
-                            emerald: '#10B981'
+                            emerald: '#10B981',
+                            indigo: '#6366f1'
                         }
                     }
                 }
@@ -78,6 +79,11 @@
             color: #0b0f19;
             box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
         }
+        .active-module-results {
+            background-color: #6366f1;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+        }
     </style>
 </head>
 <body class="bg-[#0b0f19] text-slate-200 antialiased font-sans min-h-screen flex flex-col">
@@ -93,20 +99,23 @@
                     <h1 class="text-lg font-bold text-white tracking-wide flex items-center gap-2">
                         G BR TRADE <span class="text-xs bg-brand-cyan/10 text-brand-cyan px-2 py-0.5 rounded-full border border-brand-cyan/20">Hub de Análise</span>
                     </h1>
-                    <p class="text-xs text-slate-400">Handicaps Asiáticos, Cartões e Escanteios em Tempo Real</p>
+                    <p class="text-xs text-slate-400">Handicaps, Cartões, Escanteios e Resultado Final em Tempo Real</p>
                 </div>
             </div>
 
             <!-- Seletor de Módulos (Páginas) -->
             <div class="bg-slate-900 border border-slate-800 p-1.5 rounded-xl flex flex-wrap w-full xl:w-auto gap-1">
-                <button onclick="switchModule('handicap')" id="btn-module-handicap" class="flex-1 xl:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all active-module-handicap">
-                    <i class="fa-solid fa-chart-pie"></i> Handicap Asiático
+                <button onclick="switchModule('handicap')" id="btn-module-handicap" class="flex-1 xl:flex-none flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-all active-module-handicap">
+                    <i class="fa-solid fa-chart-pie"></i> Handicap
                 </button>
-                <button onclick="switchModule('bookings')" id="btn-module-bookings" class="flex-1 xl:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-white">
-                    <i class="fa-solid fa-square text-amber-500"></i> Pontos de Cartões
+                <button onclick="switchModule('bookings')" id="btn-module-bookings" class="flex-1 xl:flex-none flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-square text-amber-500"></i> Cartões
                 </button>
-                <button onclick="switchModule('corners')" id="btn-module-corners" class="flex-1 xl:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-white">
+                <button onclick="switchModule('corners')" id="btn-module-corners" class="flex-1 xl:flex-none flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white">
                     <i class="fa-solid fa-flag text-emerald-400"></i> Escanteios
+                </button>
+                <button onclick="switchModule('results')" id="btn-module-results" class="flex-1 xl:flex-none flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-circle-check text-indigo-400"></i> 1X2 &amp; Dupla Chance
                 </button>
             </div>
             
@@ -201,6 +210,29 @@
                 </button>
             </div>
 
+            <!-- Menu de Resultado & Dupla Chance -->
+            <div id="sidebar-results" class="bg-[#0f172a] border border-slate-800 rounded-xl p-4 hidden flex flex-col gap-1">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-2 flex items-center gap-2">
+                    <i class="fa-solid fa-bars text-indigo-400"></i> Navegação Resultado
+                </p>
+                <button onclick="switchTab('tab-results-regras')" id="btn-tab-results-regras" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left">
+                    <i class="fa-solid fa-circle-info text-lg w-6"></i>
+                    <span>1X2 e Dupla Chance</span>
+                </button>
+                <button onclick="switchTab('tab-results-exemplos')" id="btn-tab-results-exemplos" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left">
+                    <i class="fa-solid fa-book-open text-lg w-6"></i>
+                    <span>Exemplos Comparativos</span>
+                </button>
+                <button onclick="switchTab('tab-results-simulador')" id="btn-tab-results-simulador" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all text-left border border-dashed border-indigo-500/20 bg-indigo-500/5">
+                    <i class="fa-solid fa-calculator text-lg w-6 text-indigo-400"></i>
+                    <span class="text-indigo-400 font-semibold">Simulador de Vitória</span>
+                </button>
+                <button onclick="switchTab('tab-results-quiz')" id="btn-tab-results-quiz" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-emerald-400 hover:bg-emerald-950/20 hover:text-emerald-300 transition-all text-left border border-emerald-500/10 bg-emerald-500/5">
+                    <i class="fa-solid fa-gamepad text-lg w-6 text-emerald-400"></i>
+                    <span>Quiz de Resultado</span>
+                </button>
+            </div>
+
             <!-- Caixa de Informação Dinâmica -->
             <div id="dynamic-gold-rule" class="bg-gradient-to-br from-[#0f172a] to-[#132238] border border-slate-800 rounded-xl p-4">
                 <div class="flex items-start gap-3">
@@ -221,7 +253,7 @@
         <section class="lg:col-span-3">
 
             <!-- ================= PAGE 1: HANDICAP ASIÁTICO ================= -->
-            <!-- TAB 1.1: COMO FUNCIONA (CONCEITO) -->
+            <!-- TAB 1.1: COMO FUNCIONA -->
             <div id="tab-instrucoes" class="tab-content block space-y-6">
                 <div class="bg-gradient-to-r from-slate-900 to-[#0e1b2e] border border-slate-800 rounded-2xl p-6 relative overflow-hidden">
                     <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-brand-cyan/5 to-transparent pointer-events-none"></div>
@@ -277,21 +309,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="bg-[#0a1424] border border-brand-cyan/20 rounded-xl p-4 flex items-center justify-between col-span-2">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-brand-cyan/10 flex items-center justify-center text-brand-cyan shrink-0">
-                            <i class="fa-solid fa-bolt"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-semibold text-white">Quer automatizar e testar qualquer cenário?</h4>
-                            <p class="text-xs text-slate-400">Nós criamos um simulador para poupar seu tempo nas análises.</p>
-                        </div>
-                    </div>
-                    <button onclick="switchTab('tab-simulador')" class="bg-brand-cyan hover:bg-brand-cyan/90 text-[#0b0f19] px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-md shrink-0 ml-4">
-                        Abrir Simulador
-                    </button>
                 </div>
             </div>
 
@@ -429,10 +446,9 @@
                 </div>
             </div>
 
-            <!-- TAB 1.4: EXEMPLOS PRÁTICOS (HANDICAP) -->
+            <!-- TAB 1.4: EXEMPLOS PRÁTICOS -->
             <div id="tab-exemplos" class="tab-content hidden space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    
                     <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5 hover:border-emerald-500/30 transition-all">
                         <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm mb-3">
                             <i class="fa-solid fa-circle-check"></i> GANHO TOTAL
@@ -500,27 +516,6 @@
                             <div class="flex justify-between"><span>Metade B (-1.0):</span> <strong class="text-rose-400 font-mono">Placar -1.0x0 (Perdida)</strong></div>
                         </div>
                     </div>
-
-                    <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5 hover:border-slate-500/30 transition-all md:col-span-2">
-                        <div class="flex items-center gap-2 text-slate-400 font-semibold text-sm mb-3">
-                            <i class="fa-solid fa-rotate-left"></i> DEVOLUÇÃO (LINHA INTEIRA)
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="space-y-2">
-                                <p class="text-xs text-slate-400">Aposta Realizada:</p>
-                                <div class="flex justify-between items-center bg-slate-900 p-2.5 rounded-lg border border-slate-800">
-                                    <span class="text-xs font-bold text-white font-mono">Casa -1.0</span>
-                                    <span class="text-xs text-slate-400">Placar: <strong class="text-white font-mono">2 x 1</strong></span>
-                                </div>
-                            </div>
-                            <div class="flex flex-col justify-center text-xs space-y-1">
-                                <p class="text-slate-400 leading-relaxed">
-                                    Por ser uma linha inteira (-1.0), não há divisão. O placar ajustado é <strong class="text-white font-mono">1 x 1</strong> (Empate perfeito com a desvantagem), resultando em devolução integral do seu dinheiro.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
@@ -545,7 +540,6 @@
                             <div>
                                 <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">1. Escolha o Handicap</label>
                                 <select id="sim-handicap" onchange="runSimulation()" class="w-full bg-[#0b0f19] border border-slate-800 rounded-lg p-2.5 text-sm font-semibold text-white focus:outline-none focus:border-brand-cyan">
-                                    <!-- Positivos -->
                                     <optgroup label="Handicaps Positivos (+)" class="bg-[#0f172a] text-emerald-400">
                                         <option value="+3.75">+3.75 (Asiático)</option>
                                         <option value="+3.50">+3.50 (Meia-Linha)</option>
@@ -564,9 +558,8 @@
                                         <option value="+0.25">+0.25 (Asiático)</option>
                                     </optgroup>
                                     <optgroup label="Neutro" class="bg-[#0f172a] text-slate-300">
-                                        <option value="0.0">0.0 (DNB / Draw No Bet)</option>
+                                        <option value="0.0">0.0 (DNB)</option>
                                     </optgroup>
-                                    <!-- Negativos -->
                                     <optgroup label="Handicaps Negativos (-)" class="bg-[#0f172a] text-rose-400">
                                         <option value="-0.25">-0.25 (Asiático)</option>
                                         <option value="-0.50">-0.50 (Meia-Linha)</option>
@@ -658,14 +651,14 @@
                 </div>
             </div>
 
-            <!-- TAB 1.6: QUIZ INTERATIVO -->
+            <!-- TAB 1.6: QUIZ INTERATIVO (HANDICAP) -->
             <div id="tab-quiz" class="tab-content hidden space-y-6">
                 <div class="bg-gradient-to-br from-slate-900 to-[#0c1e30] border border-slate-800 rounded-2xl p-6 relative overflow-hidden">
                     <div class="absolute right-0 top-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
                     
                     <div class="flex items-center justify-between mb-6">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 animate-pulse">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
                                 <i class="fa-solid fa-graduation-cap text-lg"></i>
                             </div>
                             <div>
@@ -994,7 +987,6 @@
                     </div>
                 </div>
 
-                <!-- Tabela Didática de Linhas de Escanteios -->
                 <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
                     <h3 class="text-base font-bold text-white mb-3">Linhas de Escanteios e Comportamentos</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1027,7 +1019,6 @@
             <!-- TAB 3.2: CENÁRIOS PRÁTICOS (ESCANTEIOS) -->
             <div id="tab-corners-exemplos" class="tab-content hidden space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    
                     <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
                         <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm mb-3"><i class="fa-solid fa-circle-check"></i> Over 8.5 Escanteios (Padrão)</div>
                         <p class="text-xs text-slate-400 leading-relaxed mb-3">Partida termina com 5 escanteios do Time A e 4 escanteios do Time B.</p>
@@ -1063,16 +1054,6 @@
                             <span class="bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-0.5 rounded font-bold uppercase">🟡 Meia Perda</span>
                         </div>
                     </div>
-
-                    <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5 md:col-span-2">
-                        <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm mb-3"><i class="fa-solid fa-shield-halved"></i> Escanteios por Equipe (Flamengo Over 5.5)</div>
-                        <p class="text-xs text-slate-400 leading-relaxed mb-3">Sua operação depende unicamente do time do Flamengo cobrar 6 ou mais escanteios no confronto.</p>
-                        <div class="border-t border-slate-800/60 pt-3 flex justify-between items-center text-xs">
-                            <span class="text-slate-300">Flamengo cobrou: <strong class="text-emerald-400">6 escanteios</strong></span>
-                            <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded font-bold uppercase">✅ Vencedora</span>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
@@ -1233,6 +1214,228 @@
                 </div>
             </div>
 
+
+            <!-- ================= PAGE 4: RESULTADO FINAL & DUPLA CHANCE ================= -->
+            <!-- TAB 4.1: REGRAS E INTRODUÇÃO -->
+            <div id="tab-results-regras" class="tab-content hidden space-y-6">
+                <div class="bg-gradient-to-r from-[#1a1c38] to-[#0f172a] border border-indigo-500/25 rounded-2xl p-6 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-indigo-500/10 to-transparent pointer-events-none"></div>
+                    <div class="relative z-10 max-w-2xl">
+                        <div class="flex items-center gap-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-2">
+                            <i class="fa-solid fa-circle-check"></i> Resultado Final (1X2) &amp; Dupla Chance
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Resultado Final e Dupla Chance</h2>
+                        <p class="text-slate-400 mt-2 text-sm sm:text-base leading-relaxed">
+                            O mercado de <strong>Resultado Final (1X2)</strong> considera apenas o resultado da partida ao final do tempo regulamentar, incluindo os acréscimos aplicados pelo árbitro. Prorrogações e disputas de pênaltis não são consideradas neste escopo.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl hover:border-indigo-500/30 transition-all text-center">
+                        <div class="w-10 h-10 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-extrabold flex items-center justify-center mx-auto text-lg mb-3">1</div>
+                        <h4 class="font-bold text-white text-sm uppercase">Vitória do Mandante</h4>
+                        <p class="text-xs text-slate-400 mt-2">Sua aposta é totalmente vencedora se o time da casa vencer o jogo.</p>
+                    </div>
+                    <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl hover:border-indigo-500/30 transition-all text-center">
+                        <div class="w-10 h-10 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-extrabold flex items-center justify-center mx-auto text-lg mb-3">X</div>
+                        <h4 class="font-bold text-white text-sm uppercase">Empate</h4>
+                        <p class="text-xs text-slate-400 mt-2">Sua aposta é vencedora se a partida terminar com igualdade no placar.</p>
+                    </div>
+                    <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl hover:border-indigo-500/30 transition-all text-center">
+                        <div class="w-10 h-10 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-extrabold flex items-center justify-center mx-auto text-lg mb-3">2</div>
+                        <h4 class="font-bold text-white text-sm uppercase">Vitória do Visitante</h4>
+                        <p class="text-xs text-slate-400 mt-2">Sua aposta é vencedora se o time de fora conquistar a vitória.</p>
+                    </div>
+                </div>
+
+                <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
+                    <h3 class="text-base font-bold text-white mb-3">O que é a Dupla Chance?</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        A Dupla Chance permite cobrir <strong>dois dos três</strong> resultados possíveis da partida de uma única vez, reduzindo o risco da operação ao custo de uma odd menor.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-850">
+                            <span class="text-indigo-400 font-bold font-mono text-xs block mb-1">1X (Casa ou Empate)</span>
+                            <p class="text-[11px] text-slate-400">Ganha se o mandante vencer ou se houver empate. Só perde se o visitante vencer.</p>
+                        </div>
+                        <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-850">
+                            <span class="text-indigo-400 font-bold font-mono text-xs block mb-1">X2 (Empate ou Fora)</span>
+                            <p class="text-[11px] text-slate-400">Ganha se houver empate ou se o visitante vencer. Só perde em caso de vitória do mandante.</p>
+                        </div>
+                        <div class="bg-slate-950/40 p-3.5 rounded-lg border border-slate-850">
+                            <span class="text-indigo-400 font-bold font-mono text-xs block mb-1">12 (Mandante ou Visitante)</span>
+                            <p class="text-[11px] text-slate-400">Ganha se qualquer uma das equipes vencer. Só perde em caso de empate.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4.2: EXEMPLOS PRÁTICOS (1X2 & DC) -->
+            <div id="tab-results-exemplos" class="tab-content hidden space-y-6">
+                <div class="bg-[#0f172a] border border-slate-800 rounded-xl p-5">
+                    <h3 class="text-sm font-bold text-white mb-4 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-table text-indigo-400"></i> Comparativo de Liquidações (Mandante x Visitante)
+                    </h3>
+                    <div class="overflow-x-auto rounded-lg border border-slate-800/80">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-slate-900 border-b border-slate-800 font-semibold text-slate-400">
+                                    <th class="p-4">Placar Final</th>
+                                    <th class="p-4">Vitória Mandante (1)</th>
+                                    <th class="p-4">Empate (X)</th>
+                                    <th class="p-4">Vitória Visitante (2)</th>
+                                    <th class="p-4">Dupla Chance (1X)</th>
+                                    <th class="p-4">Dupla Chance (X2)</th>
+                                    <th class="p-4">Dupla Chance (12)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/50">
+                                <tr class="hover:bg-slate-800/20">
+                                    <td class="p-4 font-mono font-bold text-white">2 x 1 (Casa Vence)</td>
+                                    <td class="p-4 text-emerald-400 font-semibold"><i class="fa-solid fa-check"></i> Ganha</td>
+                                    <td class="p-4 text-rose-500 font-semibold"><i class="fa-solid fa-xmark"></i> Perde</td>
+                                    <td class="p-4 text-rose-500 font-semibold"><i class="fa-solid fa-xmark"></i> Perde</td>
+                                    <td class="p-4 text-emerald-400 font-semibold"><i class="fa-solid fa-check"></i> Ganha</td>
+                                    <td class="p-4 text-rose-500 font-semibold"><i class="fa-solid fa-xmark"></i> Perde</td>
+                                    <td class="p-4 text-emerald-400 font-semibold"><i class="fa-solid fa-check"></i> Ganha</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/20">
+                                    <td class="p-4 font-mono font-bold text-white">1 x 1 (Empate)</td>
+                                    <td class="p-4 text-rose-500 font-semibold"><i class="fa-solid fa-xmark"></i> Perde</td>
+                                    <td class="p-4 text-emerald-400 font-semibold"><i class="fa-solid fa-check"></i> Ganha</td>
+                                    <td class="p-4 text-rose-500 font-semibold"><i class="fa-solid fa-xmark"></i> Perde</td>
+                                    <td class="p-4 text-emerald-400 font-semibold"><i class="fa-solid fa-check"></i> Ganha</td>
+                                    <td class="p-4 text-emerald-400 font-semibold"><i class="fa-solid fa-check"></i> Ganha</td>
+                                    <td class="p-4 text-rose-500 font-semibold"><i class="fa-solid fa-xmark"></i> Perde</td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/20">
+                                    <td class="p-4 font-mono font-bold text-white">0 x 2 (Fora Vence)</td>
+                                    <td class="p-4 text-rose-500 font-semibold"><i class="fa-solid fa-xmark"></i> Perde</td>
+                                    <td class="p-4 text-rose-500 font-semibold"><i class="fa-solid fa-xmark"></i> Perde</td>
+                                    <td class="p-4 text-emerald-400 font-semibold"><i class="fa-solid fa-check"></i> Ganha</td>
+                                    <td class="p-4 text-rose-500 font-semibold"><i class="fa-solid fa-xmark"></i> Perde</td>
+                                    <td class="p-4 text-emerald-400 font-semibold"><i class="fa-solid fa-check"></i> Ganha</td>
+                                    <td class="p-4 text-emerald-400 font-semibold"><i class="fa-solid fa-check"></i> Ganha</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4.3: SIMULADOR DE RESULTADOS -->
+            <div id="tab-results-simulador" class="tab-content hidden space-y-6">
+                <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-24 h-24 bg-indigo-500/5 rounded-full blur-2xl pointer-events-none"></div>
+                    
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                            <i class="fa-solid fa-calculator text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Calculadora 1X2 &amp; Dupla Chance</h3>
+                            <p class="text-xs text-slate-400">Configure os gols e teste se sua seleção de Resultado Final ou Dupla Chance fecharia vitoriosa</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Inputs Panel (Left) -->
+                        <div class="md:col-span-1 space-y-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">1. Selecione sua Entrada</label>
+                                <select id="sim-results-type" onchange="runResultsSimulation()" class="w-full bg-[#0b0f19] border border-slate-800 rounded-lg p-2.5 text-sm font-semibold text-white focus:outline-none focus:border-indigo-500">
+                                    <option value="1">Vitória do Mandante (1)</option>
+                                    <option value="X">Empate (X)</option>
+                                    <option value="2">Vitória do Visitante (2)</option>
+                                    <option value="1X">Mandante ou Empate (1X)</option>
+                                    <option value="X2">Empate ou Visitante (X2)</option>
+                                    <option value="12">Mandante ou Visitante (12)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">2. Ajuste o Placar Regulamentar</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="bg-[#0b0f19] border border-slate-800 rounded-lg p-2 flex flex-col items-center">
+                                        <span class="text-[10px] text-slate-500 font-bold uppercase mb-1">Casa</span>
+                                        <div class="flex items-center gap-2">
+                                            <button onclick="changeResultsScore('home', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">-</button>
+                                            <span id="results-score-home" class="font-mono text-lg font-bold text-white">1</span>
+                                            <button onclick="changeResultsScore('home', 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="bg-[#0b0f19] border border-slate-800 rounded-lg p-2 flex flex-col items-center">
+                                        <span class="text-[10px] text-slate-500 font-bold uppercase mb-1">Visitante</span>
+                                        <div class="flex items-center gap-2">
+                                            <button onclick="changeResultsScore('away', -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">-</button>
+                                            <span id="results-score-away" class="font-mono text-lg font-bold text-white">1</span>
+                                            <button onclick="changeResultsScore('away', 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded flex items-center justify-center font-bold text-sm">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Outputs Panel (Right) -->
+                        <div class="md:col-span-2 space-y-4 flex flex-col justify-center">
+                            <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-6 flex flex-col items-center justify-center text-center">
+                                <span class="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-2">Análise de Liquidação</span>
+                                <div id="results-verdict-text" class="text-3xl font-black text-white tracking-wide">Calculando...</div>
+                                <div id="results-verdict-desc" class="text-xs text-slate-400 mt-2 max-w-sm">Insira o placar e selecione a aposta.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4.4: QUIZ DE RESULTADOS -->
+            <div id="tab-results-quiz" class="tab-content hidden space-y-6">
+                <div class="bg-gradient-to-br from-[#12132e] to-[#0f172a] border border-indigo-500/20 rounded-2xl p-6 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 animate-pulse"><i class="fa-solid fa-flag"></i></div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">Quiz de Resultado e Dupla Chance</h3>
+                                <p class="text-xs text-slate-400">Domine as liquidações do mercado mais popular das apostas</p>
+                            </div>
+                        </div>
+                        <div class="text-xs bg-slate-800 text-slate-300 font-bold font-mono px-3 py-1.5 rounded-lg border border-slate-700">Questão <span id="results-quiz-progress-text" class="text-indigo-400">1</span> de 5</div>
+                    </div>
+
+                    <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mb-6"><div id="results-quiz-progress-bar" class="h-full bg-indigo-500 transition-all duration-300" style="width: 20%;"></div></div>
+
+                    <div id="results-quiz-active-panel" class="space-y-6">
+                        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5"><h4 id="results-quiz-question-text" class="text-sm sm:text-base font-bold text-white leading-relaxed">Gerando questão de resultado...</h4></div>
+                        <div class="grid grid-cols-2 gap-3" id="results-quiz-options-container"></div>
+                        <div id="results-quiz-feedback-box" class="hidden rounded-xl p-4 border transition-all">
+                            <div class="flex items-start gap-3">
+                                <div id="results-quiz-feedback-icon" class="text-lg mt-0.5"></div>
+                                <div>
+                                    <h5 id="results-quiz-feedback-title" class="text-xs font-bold uppercase tracking-wider">Resultado</h5>
+                                    <p id="results-quiz-feedback-explanation" class="text-xs text-slate-300 mt-1 leading-relaxed"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end"><button onclick="nextResultsQuizQuestion()" id="results-quiz-btn-action" disabled class="px-5 py-2.5 bg-slate-800 text-slate-500 font-bold text-xs rounded-lg border border-slate-700 transition-all cursor-not-allowed">Selecione uma resposta</button></div>
+                    </div>
+
+                    <div id="results-quiz-score-panel" class="hidden text-center py-8 space-y-6">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-4xl mb-2 animate-bounce"><i class="fa-solid fa-trophy"></i></div>
+                        <div>
+                            <h4 class="text-xl font-extrabold text-white">Quiz de Resultados Concluído!</h4>
+                        </div>
+                        <div class="max-w-xs mx-auto bg-slate-900/80 border border-slate-800 rounded-xl p-5">
+                            <div class="text-3xl font-black text-indigo-400 font-mono" id="results-quiz-score-display">0 / 5</div>
+                            <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mt-1">Pontuação Final</p>
+                            <p class="text-xs text-slate-300 mt-3 font-medium leading-relaxed" id="results-quiz-score-message"></p>
+                        </div>
+                        <button onclick="startResultsQuiz()" class="inline-flex items-center gap-2 bg-indigo-500 hover:bg-indigo-450 text-white px-6 py-3 rounded-xl text-xs font-extrabold transition-all shadow-lg">Iniciar Novo Teste</button>
+                    </div>
+                </div>
+            </div>
+
         </section>
     </main>
 
@@ -1261,6 +1464,9 @@
         let currentCornersState = { home: 5, away: 4 };
         let currentCornersType = 'over'; // over / under
 
+        // RESULTS SCORE STATE
+        let currentResultsScores = { home: 1, away: 1 };
+
         // HANDICAPS POOL (FOR GENERATING RANDOM HANDICAP QUIZZES)
         const HANDICAPS_POOL = [
             -3.75, -3.5, -3.25, -3.0, -2.75, -2.5, -2.25, -2.0, -1.75, -1.5, -1.25, -1.0, -0.75, -0.5, -0.25,
@@ -1287,6 +1493,11 @@
         let cornerQuizScore = 0;
         let cornerQuizAnswered = false;
 
+        let resultsQuizQuestions = [];
+        let resultsQuizCurrentIndex = 0;
+        let resultsQuizScore = 0;
+        let resultsQuizAnswered = false;
+
         // SWITCH BETWEEN MAIN MODULES (PAGES)
         function switchModule(moduleName) {
             activeModule = moduleName;
@@ -1294,23 +1505,27 @@
             const btnHandicap = document.getElementById('btn-module-handicap');
             const btnBookings = document.getElementById('btn-module-bookings');
             const btnCorners = document.getElementById('btn-module-corners');
+            const btnResults = document.getElementById('btn-module-results');
 
             const sidebarHandicap = document.getElementById('sidebar-handicap');
             const sidebarBookings = document.getElementById('sidebar-bookings');
             const sidebarCorners = document.getElementById('sidebar-corners');
+            const sidebarResults = document.getElementById('sidebar-results');
 
             const goldRuleIcon = document.getElementById('gold-rule-icon');
             const goldRuleTitle = document.getElementById('gold-rule-title');
             const goldRuleDesc = document.getElementById('gold-rule-desc');
 
             // Reset buttons classes
-            btnHandicap.className = "flex-1 xl:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-white";
-            btnBookings.className = "flex-1 xl:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-white";
-            btnCorners.className = "flex-1 xl:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-400 hover:text-white";
+            btnHandicap.className = "flex-1 xl:flex-none flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white";
+            btnBookings.className = "flex-1 xl:flex-none flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white";
+            btnCorners.className = "flex-1 xl:flex-none flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white";
+            btnResults.className = "flex-1 xl:flex-none flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white";
 
             sidebarHandicap.classList.add('hidden');
             sidebarBookings.classList.add('hidden');
             sidebarCorners.classList.add('hidden');
+            sidebarResults.classList.add('hidden');
 
             if (moduleName === 'handicap') {
                 btnHandicap.classList.add('active-module-handicap');
@@ -1351,6 +1566,19 @@
                 goldRuleDesc.innerHTML = "Apenas escanteios cobrados são válidos para liquidação. Escanteios sinalizados que não foram cobrados antes do apito final são desconsiderados.";
 
                 switchTab('tab-corners-regras');
+            } else if (moduleName === 'results') {
+                btnResults.classList.add('active-module-results');
+                btnResults.classList.remove('text-slate-400');
+                sidebarResults.classList.remove('hidden');
+
+                document.documentElement.style.setProperty('--tab-color', '#6366f1');
+
+                goldRuleIcon.className = "bg-indigo-500/10 p-2 rounded-lg text-[#6366f1] mt-0.5 shrink-0";
+                goldRuleIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+                goldRuleTitle.innerText = "Regra de Tempo";
+                goldRuleDesc.innerHTML = "O mercado regulamentar considera apenas o final do tempo regulamentar, incluindo os acréscimos aplicados. Prorrogações e cobranças de pênaltis são desconsideradas.";
+
+                switchTab('tab-results-regras');
             }
         }
 
@@ -1379,6 +1607,10 @@
                 runCornersSimulation();
             } else if (tabId === 'tab-corners-quiz') {
                 startCornerQuiz();
+            } else if (tabId === 'tab-results-simulador') {
+                runResultsSimulation();
+            } else if (tabId === 'tab-results-quiz') {
+                startResultsQuiz();
             }
         }
 
@@ -1822,7 +2054,7 @@
         }
 
 
-        // ================= MOTOR DE QUIZ DE CARTÕES (PROCEDURAL) =================
+        // ================= MOTOR DE QUIZ DE CARTÕES =================
         function generateProceduralCardQuestion() {
             const teamNames = ['Flamengo', 'Palmeiras', 'São Paulo', 'Corinthians', 'Grêmio', 'Atlético-MG', 'Cruzeiro', 'Internacional'];
             const homeTeam = teamNames[Math.floor(Math.random() * teamNames.length)];
@@ -2338,11 +2570,261 @@
             }
         }
 
+
+        // ================= MOTOR DE SIMULAÇÃO DE RESULTADO / DUPLA CHANCE =================
+        function changeResultsScore(team, val) {
+            currentResultsScores[team] = Math.max(0, currentResultsScores[team] + val);
+            document.getElementById(`results-score-${team}`).innerText = currentResultsScores[team];
+            runResultsSimulation();
+        }
+
+        function runResultsSimulation() {
+            const h = currentResultsScores.home;
+            const a = currentResultsScores.away;
+            const selectedType = document.getElementById('sim-results-type').value;
+
+            let actualOutcome = 'X'; // Empate
+            if (h > a) actualOutcome = '1';
+            else if (h < a) actualOutcome = '2';
+
+            let win = false;
+            let displayDetails = '';
+
+            switch (selectedType) {
+                case '1':
+                    win = (actualOutcome === '1');
+                    displayDetails = `Sua seleção: Vitória do Mandante (1) | Placar Real: ${h}x${a}`;
+                    break;
+                case 'X':
+                    win = (actualOutcome === 'X');
+                    displayDetails = `Sua seleção: Empate (X) | Placar Real: ${h}x${a}`;
+                    break;
+                case '2':
+                    win = (actualOutcome === '2');
+                    displayDetails = `Sua seleção: Vitória do Visitante (2) | Placar Real: ${h}x${a}`;
+                    break;
+                case '1X':
+                    win = (actualOutcome === '1' || actualOutcome === 'X');
+                    displayDetails = `Sua seleção: Mandante ou Empate (1X) | Placar Real: ${h}x${a}`;
+                    break;
+                case 'X2':
+                    win = (actualOutcome === 'X' || actualOutcome === '2');
+                    displayDetails = `Sua seleção: Empate ou Visitante (X2) | Placar Real: ${h}x${a}`;
+                    break;
+                case '12':
+                    win = (actualOutcome === '1' || actualOutcome === '2');
+                    displayDetails = `Sua seleção: Mandante ou Visitante (12) | Placar Real: ${h}x${a}`;
+                    break;
+            }
+
+            const vText = document.getElementById('results-verdict-text');
+            const vDesc = document.getElementById('results-verdict-desc');
+
+            if (win) {
+                vText.innerText = "APOSTA GANHA ✅";
+                vText.className = "text-3xl font-black text-emerald-400 tracking-wide";
+                vDesc.innerText = `${displayDetails}. A liquidação regulamentar confirma sua vitória!`;
+            } else {
+                vText.innerText = "APOSTA PERDIDA ❌";
+                vText.className = "text-3xl font-black text-rose-500 tracking-wide";
+                vDesc.innerText = `${displayDetails}. O placar atual não atende aos critérios da sua seleção.`;
+            }
+        }
+
+
+        // ================= MOTOR DE QUIZ DE RESULTADOS (PROCEDURAL) =================
+        function generateProceduralResultsQuestion() {
+            const teamNames = ['Flamengo', 'Botafogo', 'Fluminense', 'Vasco', 'Palmeiras', 'Santos', 'São Paulo', 'Corinthians'];
+            const home = teamNames[Math.floor(Math.random() * teamNames.length)];
+            let away = teamNames[Math.floor(Math.random() * teamNames.length)];
+            while (away === home) away = teamNames[Math.floor(Math.random() * teamNames.length)];
+
+            const scores = [
+                {h: 2, a: 1, label: 'Vitória do Mandante'},
+                {h: 1, a: 1, label: 'Empate'},
+                {h: 0, a: 3, label: 'Vitória do Visitante'},
+                {h: 3, a: 2, label: 'Vitória do Mandante'},
+                {h: 2, a: 2, label: 'Empate'},
+                {h: 1, a: 2, label: 'Vitória do Visitante'}
+            ];
+            const currentScore = scores[Math.floor(Math.random() * scores.length)];
+            
+            const questionType = Math.random() > 0.5 ? '1X2' : 'DC';
+
+            if (questionType === '1X2') {
+                const selections = ['1', 'X', '2'];
+                const correctSelection = currentScore.h > currentScore.a ? '1' : (currentScore.h === currentScore.a ? 'X' : '2');
+                const wrongSelections = selections.filter(s => s !== correctSelection);
+
+                const questionText = `Durante a partida entre **${home}** e **${away}**, o jogo terminou no tempo regulamentar com o placar de **${currentScore.h} x ${currentScore.a}**. <br><br>` +
+                    `Se você operou no mercado de **Resultado Final (1X2)**, qual a seleção exata que liquida como **APOSTA GANHA**?`;
+
+                const explanation = `Como o placar final foi de ${currentScore.h}x${currentScore.a} (${currentScore.label}), a seleção vitoriosa no mercado 1X2 é a opção **"${correctSelection}"**.`;
+
+                return {
+                    questionText: questionText,
+                    correctString: correctSelection,
+                    explanation: explanation,
+                    alternatives: selections
+                };
+            } else {
+                const selections = ['1X', 'X2', '12'];
+                const hG = currentScore.h;
+                const aG = currentScore.away;
+
+                let correctSelection = '';
+                if (hG > aG) {
+                    correctSelection = Math.random() > 0.5 ? '1X' : '12';
+                } else if (hG === aG) {
+                    correctSelection = Math.random() > 0.5 ? '1X' : 'X2';
+                } else {
+                    correctSelection = Math.random() > 0.5 ? 'X2' : '12';
+                }
+
+                const wrongSelections = selections.filter(s => s !== correctSelection);
+                
+                const questionText = `O placar final do confronto entre **${home}** e **${away}** foi de **${currentScore.h} x ${currentScore.a}**.<br><br>` +
+                    `Se você operou em **Dupla Chance**, qual das seguintes seleções liquida como **APOSTA GANHA**?`;
+
+                const explanation = `Com o placar final de ${currentScore.h}x${currentScore.a}, a opção de cobertura dupla **"${correctSelection}"** liquida como vencedora por cobrir o resultado de ${currentScore.label}.`;
+
+                return {
+                    questionText: questionText,
+                    correctString: correctSelection,
+                    explanation: explanation,
+                    alternatives: [correctSelection, ...wrongSelections].sort()
+                };
+            }
+        }
+
+        function startResultsQuiz() {
+            resultsQuizScore = 0;
+            resultsQuizCurrentIndex = 0;
+            resultsQuizAnswered = false;
+            resultsQuizQuestions = [];
+
+            for (let i = 0; i < 5; i++) {
+                resultsQuizQuestions.push(generateProceduralResultsQuestion());
+            }
+
+            document.getElementById('results-quiz-active-panel').classList.remove('hidden');
+            document.getElementById('results-quiz-score-panel').classList.add('hidden');
+
+            loadResultsQuizQuestion();
+        }
+
+        function loadResultsQuizQuestion() {
+            resultsQuizAnswered = false;
+
+            const progress = ((resultsQuizCurrentIndex + 1) / resultsQuizQuestions.length) * 100;
+            document.getElementById('results-quiz-progress-bar').style.width = `${progress}%`;
+            document.getElementById('results-quiz-progress-text').innerText = resultsQuizCurrentIndex + 1;
+
+            const currentQ = resultsQuizQuestions[resultsQuizCurrentIndex];
+            let formattedQuestion = currentQ.questionText.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-black">$1</strong>');
+            document.getElementById('results-quiz-question-text').innerHTML = formattedQuestion;
+
+            const container = document.getElementById('results-quiz-options-container');
+            container.innerHTML = '';
+
+            const btnAction = document.getElementById('results-quiz-btn-action');
+            btnAction.innerText = "Selecione uma resposta";
+            btnAction.disabled = true;
+            btnAction.className = "px-5 py-2.5 bg-slate-800 text-slate-500 font-bold text-xs rounded-lg border border-slate-700 transition-all cursor-not-allowed";
+
+            const feedbackBox = document.getElementById('results-quiz-feedback-box');
+            feedbackBox.classList.add('hidden');
+
+            currentQ.alternatives.forEach((alt) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-center py-3.5 rounded-xl border border-slate-800 bg-slate-900/30 hover:bg-slate-800/40 hover:border-slate-700 text-slate-200 text-sm font-semibold transition-all shadow-sm";
+                btn.innerText = alt;
+                btn.onclick = () => selectResultsQuizAnswer(alt, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectResultsQuizAnswer(selectedStr, selectedBtn) {
+            if (resultsQuizAnswered) return;
+            resultsQuizAnswered = true;
+
+            const currentQ = resultsQuizQuestions[resultsQuizCurrentIndex];
+            const optionsContainer = document.getElementById('results-quiz-options-container');
+            const optionButtons = optionsContainer.querySelectorAll('button');
+
+            const isCorrect = (selectedStr === currentQ.correctString);
+            if (isCorrect) resultsQuizScore++;
+
+            optionButtons.forEach((btn) => {
+                btn.disabled = true;
+                const btnText = btn.innerText;
+
+                if (btnText === currentQ.correctString) {
+                    btn.className = "w-full text-center py-3.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-sm font-bold transition-all shadow-md";
+                } else if (btnText === selectedStr && !isCorrect) {
+                    btn.className = "w-full text-center py-3.5 rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-400 text-sm font-bold transition-all shadow-md";
+                } else {
+                    btn.className = "w-full text-center py-3.5 rounded-xl border border-slate-900 bg-slate-950/20 text-slate-600 text-sm font-bold transition-all";
+                }
+            });
+
+            const feedbackBox = document.getElementById('results-quiz-feedback-box');
+            const feedbackIcon = document.getElementById('results-quiz-feedback-icon');
+            const feedbackTitle = document.getElementById('results-quiz-feedback-title');
+            const feedbackExplanation = document.getElementById('results-quiz-feedback-explanation');
+
+            feedbackBox.classList.remove('hidden');
+            feedbackExplanation.innerHTML = currentQ.explanation;
+
+            if (isCorrect) {
+                feedbackBox.className = "rounded-xl p-4 border bg-emerald-500/5 border-emerald-500/25 text-emerald-400 transition-all";
+                feedbackIcon.innerHTML = '<i class="fa-solid fa-circle-check text-xl"></i>';
+                feedbackTitle.innerText = "Muito Bem! Acertou o Veredito!";
+            } else {
+                feedbackBox.className = "rounded-xl p-4 border bg-rose-500/5 border-rose-500/25 text-rose-400 transition-all";
+                feedbackIcon.innerHTML = '<i class="fa-solid fa-circle-xmark text-xl"></i>';
+                feedbackTitle.innerText = "Resposta incorreta! Atente-se ao cálculo do placar:";
+            }
+
+            const btnAction = document.getElementById('results-quiz-btn-action');
+            btnAction.disabled = false;
+            btnAction.className = "px-5 py-2.5 bg-indigo-500 hover:bg-indigo-650 text-white font-black text-xs rounded-lg transition-all shadow-md cursor-pointer";
+            
+            if (resultsQuizCurrentIndex === resultsQuizQuestions.length - 1) {
+                btnAction.innerText = "Ver Desempenho Final";
+            } else {
+                btnAction.innerText = "Próxima Questão";
+            }
+        }
+
+        function nextResultsQuizQuestion() {
+            if (resultsQuizCurrentIndex === resultsQuizQuestions.length - 1) {
+                document.getElementById('results-quiz-active-panel').classList.add('hidden');
+                document.getElementById('results-quiz-score-panel').classList.remove('hidden');
+
+                document.getElementById('results-quiz-score-display').innerText = `${resultsQuizScore} / ${resultsQuizQuestions.length}`;
+
+                const messageEl = document.getElementById('results-quiz-score-message');
+                if (resultsQuizScore === 5) {
+                    messageEl.innerText = "🥇 Fantástico! Você domina as liquidações de Resultado Final e Dupla Chance!";
+                } else if (resultsQuizScore >= 3) {
+                    messageEl.innerText = "🟢 Excelente! Seus conceitos do mercado básico estão muito sólidos.";
+                } else {
+                    messageEl.innerText = "📚 Pratique mais no simulador para não confundir coberturas de empates em Dupla Chance!";
+                }
+            } else {
+                resultsQuizCurrentIndex++;
+                loadResultsQuizQuestion();
+            }
+        }
+
+
         // INITIAL WINDOW LOAD TRIGGER
         window.onload = function() {
             runSimulation();
             runCardsSimulation();
             runCornersSimulation();
+            runResultsSimulation();
         }
     </script>
 </body>
